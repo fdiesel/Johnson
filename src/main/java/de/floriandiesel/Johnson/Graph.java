@@ -19,12 +19,10 @@ public class Graph<T> implements Cloneable {
 
 	private List<Edge<T>> allEdges;
 	private Map<Long, Vertex<T>> allVertices;
-	boolean isDirected = false;
 
-	public Graph(boolean isDirected) {
+	public Graph() {
 		allEdges = new ArrayList<Edge<T>>();
 		allVertices = new HashMap<Long, Vertex<T>>();
-		this.isDirected = isDirected;
 	}
 
 	public void addEdge(long id1, long id2) {
@@ -35,8 +33,6 @@ public class Graph<T> implements Cloneable {
 		addEdge(v1.id, v2.id);
 	}
 
-	// This works only for directed graph because for undirected graph we can end up
-	// adding edges two times to allEdges
 	public void addVertex(Vertex<T> vertex) {
 		if (allVertices.containsKey(vertex.getId())) {
 			return;
@@ -85,12 +81,9 @@ public class Graph<T> implements Cloneable {
 			allVertices.put(id2, vertex2);
 		}
 
-		Edge<T> edge = new Edge<T>(vertex1, vertex2, isDirected, weight);
+		Edge<T> edge = new Edge<T>(vertex1, vertex2, weight);
 		allEdges.add(edge);
 		vertex1.addAdjacentVertex(edge, vertex2);
-		if (!isDirected) {
-			vertex2.addAdjacentVertex(edge, vertex1);
-		}
 
 	}
 
@@ -129,7 +122,7 @@ public class Graph<T> implements Cloneable {
 	}
 
 	public Graph<T> clone() {
-		Graph<T> graph = new Graph<T>(this.isDirected);
+		Graph<T> graph = new Graph<T>();
 		this.getAllVertices().forEach(graph::addVertex);
 		this.getAllEdges().forEach(graph::addEdge);
 		return graph;
@@ -137,7 +130,7 @@ public class Graph<T> implements Cloneable {
 
 	// David (29.12.2020)
 	public Graph<T> reverse() {
-		Graph<T> outputGraph = new Graph<T>(this.isDirected);
+		Graph<T> outputGraph = new Graph<T>();
 		List<Edge<T>> edges = getAllEdges();
 		for (int i = 0; i != edges.size(); i++) {
 			Edge<T> edge = edges.get(i);
@@ -177,7 +170,7 @@ public class Graph<T> implements Cloneable {
 		Matcher matcher = pattern.matcher(edgeString);
 
 		// new directed graph
-		Graph<Integer> graph = new Graph<>(true);
+		Graph<Integer> graph = new Graph<>();
 
 		// create vertices and edges
 		while (matcher.find()) {
@@ -299,7 +292,6 @@ class Vertex<T> {
 
 class Edge<T> {
 
-	private boolean isDirected = false;
 	private Vertex<T> vertex1;
 	private Vertex<T> vertex2;
 	private int weight;
@@ -307,19 +299,13 @@ class Edge<T> {
 	Edge(Vertex<T> vertex1, Vertex<T> vertex2) {
 		this.vertex1 = vertex1;
 		this.vertex2 = vertex2;
+		this.weight = 0;
 	}
 
-	Edge(Vertex<T> vertex1, Vertex<T> vertex2, boolean isDirected, int weight) {
+	Edge(Vertex<T> vertex1, Vertex<T> vertex2, int weight) {
 		this.vertex1 = vertex1;
 		this.vertex2 = vertex2;
 		this.weight = weight;
-		this.isDirected = isDirected;
-	}
-
-	Edge(Vertex<T> vertex1, Vertex<T> vertex2, boolean isDirected) {
-		this.vertex1 = vertex1;
-		this.vertex2 = vertex2;
-		this.isDirected = isDirected;
 	}
 
 	Vertex<T> getVertex1() {
@@ -332,10 +318,6 @@ class Edge<T> {
 
 	int getWeight() {
 		return weight;
-	}
-
-	public boolean isDirected() {
-		return isDirected;
 	}
 
 	@Override
