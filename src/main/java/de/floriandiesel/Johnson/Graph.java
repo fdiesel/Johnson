@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Graph<T> implements Cloneable {
 
@@ -162,12 +163,7 @@ public class Graph<T> implements Cloneable {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		for (Edge<T> edge : getAllEdges()) {
-			buffer.append("{" + edge.getVertex1() + ", " + edge.getVertex2() + "}");
-			buffer.append("\n");
-		}
-		return buffer.toString();
+		return String.join("\n", getAllEdges().stream().map(edge -> edge.toString()).collect(Collectors.toList()));
 	}
 
 	public static Graph<Integer> fromString(String edgeString) {
@@ -375,8 +371,7 @@ class Edge<T> {
 
 	@Override
 	public String toString() {
-		return "Edge [isDirected=" + isDirected + ", vertex1=" + vertex1
-				+ ", vertex2=" + vertex2 + ", weight=" + weight + "]";
+		return String.format("(%2d -- %-2d)", vertex1.id, vertex2.id);
 	}
 
 }
