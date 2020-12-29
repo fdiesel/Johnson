@@ -201,9 +201,7 @@ public class Graph<T> implements Cloneable {
 		Path path = Paths.get(filename);
 
 		// concatenate all lines
-		String line = Files.readAllLines(path)
-				.stream()
-				.reduce("", (a, b) -> a + b);
+		String line = String.join(" ", Files.readAllLines(path));
 
 		return fromString(line);
 
