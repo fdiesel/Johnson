@@ -25,12 +25,12 @@ public class Graph<T> implements Cloneable {
 		allVertices = new HashMap<Long, Vertex<T>>();
 	}
 
-	public void addEdge(long id1, long id2) {
-		addEdge(id1, id2, 0);
+	public void addEdge(long fromId, long toId) {
+		addEdge(fromId, toId, 0);
 	}
 
-	public void addEdge(Vertex<T> v1, Vertex<T> v2) {
-		addEdge(v1.id, v2.id);
+	public void addEdge(Vertex<T> from, Vertex<T> to) {
+		addEdge(from.id, to.id);
 	}
 
 	public void addVertex(Vertex<T> vertex) {
@@ -65,20 +65,20 @@ public class Graph<T> implements Cloneable {
 		return allVertices.get(id);
 	}
 
-	public void addEdge(long id1, long id2, int weight) {
+	public void addEdge(long fromId, long toId, int weight) {
 		Vertex<T> vertex1 = null;
-		if (allVertices.containsKey(id1)) {
-			vertex1 = allVertices.get(id1);
+		if (allVertices.containsKey(fromId)) {
+			vertex1 = allVertices.get(fromId);
 		} else {
-			vertex1 = new Vertex<T>(id1);
-			allVertices.put(id1, vertex1);
+			vertex1 = new Vertex<T>(fromId);
+			allVertices.put(fromId, vertex1);
 		}
 		Vertex<T> vertex2 = null;
-		if (allVertices.containsKey(id2)) {
-			vertex2 = allVertices.get(id2);
+		if (allVertices.containsKey(toId)) {
+			vertex2 = allVertices.get(toId);
 		} else {
-			vertex2 = new Vertex<T>(id2);
-			allVertices.put(id2, vertex2);
+			vertex2 = new Vertex<T>(toId);
+			allVertices.put(toId, vertex2);
 		}
 
 		Edge<T> edge = new Edge<T>(vertex1, vertex2, weight);
@@ -88,15 +88,15 @@ public class Graph<T> implements Cloneable {
 	}
 
 	public void addEdge(Edge<T> edge) {
-		addEdge(edge.getVertex1(), edge.getVertex2());
+		addEdge(edge.getFrom(), edge.getTo());
 	}
 
 	// David (29.12.2020)
 	public void removeEdge(Edge<T> edge) {
 		if (allEdges.contains(edge)) {
 			allEdges.remove(edge);
-			Vertex<T> vertex1 = edge.getVertex1();
-			Vertex<T> vertex2 = edge.getVertex2();
+			Vertex<T> vertex1 = edge.getFrom();
+			Vertex<T> vertex2 = edge.getTo();
 			vertex1.removeAdjacentVertex(edge, vertex2);
 			vertex2.removeAdjacentVertex(edge, vertex1);
 		}
@@ -134,8 +134,8 @@ public class Graph<T> implements Cloneable {
 		List<Edge<T>> edges = getAllEdges();
 		for (int i = 0; i != edges.size(); i++) {
 			Edge<T> edge = edges.get(i);
-			Vertex<T> vertex1 = edge.getVertex1();
-			Vertex<T> vertex2 = edge.getVertex2();
+			Vertex<T> vertex1 = edge.getFrom();
+			Vertex<T> vertex2 = edge.getTo();
 			outputGraph.addEdge(vertex2, vertex1);
 		}
 		return outputGraph;
@@ -282,7 +282,7 @@ class Vertex<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Vertex other = (Vertex) obj;
+		Vertex<T> other = (Vertex<T>) obj;
 		if (id != other.id)
 			return false;
 		return true;
@@ -292,28 +292,28 @@ class Vertex<T> {
 
 class Edge<T> {
 
-	private Vertex<T> vertex1;
-	private Vertex<T> vertex2;
+	private Vertex<T> from;
+	private Vertex<T> to;
 	private int weight;
 
 	Edge(Vertex<T> vertex1, Vertex<T> vertex2) {
-		this.vertex1 = vertex1;
-		this.vertex2 = vertex2;
+		this.from = vertex1;
+		this.to = vertex2;
 		this.weight = 0;
 	}
 
 	Edge(Vertex<T> vertex1, Vertex<T> vertex2, int weight) {
-		this.vertex1 = vertex1;
-		this.vertex2 = vertex2;
+		this.from = vertex1;
+		this.to = vertex2;
 		this.weight = weight;
 	}
 
-	Vertex<T> getVertex1() {
-		return vertex1;
+	Vertex<T> getFrom() {
+		return from;
 	}
 
-	Vertex<T> getVertex2() {
-		return vertex2;
+	Vertex<T> getTo() {
+		return to;
 	}
 
 	int getWeight() {
@@ -324,8 +324,8 @@ class Edge<T> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((vertex1 == null) ? 0 : vertex1.hashCode());
-		result = prime * result + ((vertex2 == null) ? 0 : vertex2.hashCode());
+		result = prime * result + ((from == null) ? 0 : from.hashCode());
+		result = prime * result + ((to == null) ? 0 : to.hashCode());
 		return result;
 	}
 
@@ -337,23 +337,23 @@ class Edge<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Edge other = (Edge) obj;
-		if (vertex1 == null) {
-			if (other.vertex1 != null)
+		Edge<T> other = (Edge<T>) obj;
+		if (from == null) {
+			if (other.from != null)
 				return false;
-		} else if (!vertex1.equals(other.vertex1))
+		} else if (!from.equals(other.from))
 			return false;
-		if (vertex2 == null) {
-			if (other.vertex2 != null)
+		if (to == null) {
+			if (other.to != null)
 				return false;
-		} else if (!vertex2.equals(other.vertex2))
+		} else if (!to.equals(other.to))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("(%2d -- %-2d)", vertex1.id, vertex2.id);
+		return String.format("(%2d -- %-2d)", from.id, to.id);
 	}
 
 }
