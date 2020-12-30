@@ -47,6 +47,7 @@ public class Edge<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+		@SuppressWarnings("unchecked")
 		Edge<T> other = (Edge<T>) obj;
 		if (from == null) {
 			if (other.from != null)
