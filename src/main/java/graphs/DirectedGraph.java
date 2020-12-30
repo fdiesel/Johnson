@@ -25,14 +25,6 @@ public class DirectedGraph<T> implements Cloneable {
 		allVertices = new HashMap<Long, Vertex<T>>();
 	}
 
-	public void addEdge(long fromId, long toId) {
-		addEdge(fromId, toId, 0);
-	}
-
-	public void addEdge(Vertex<T> from, Vertex<T> to) {
-		addEdge(from.getId(), to.getId());
-	}
-
 	public void addVertex(Vertex<T> vertex) {
 		if (allVertices.containsKey(vertex.getId())) {
 			return;
@@ -43,15 +35,6 @@ public class DirectedGraph<T> implements Cloneable {
 		}
 	}
 
-	// David (29.12.2020)
-	public void removeVertex(Vertex<T> vertex) {
-		List<Edge<T>> toDelete = vertex.getEdges();
-		for (int i = 0; i < toDelete.size(); i++) {
-			this.removeEdge(toDelete.get(i));
-		}
-		allVertices.remove(vertex.getId());
-	}
-
 	public Vertex<T> addSingleVertex(long id) {
 		if (allVertices.containsKey(id)) {
 			return allVertices.get(id);
@@ -59,6 +42,15 @@ public class DirectedGraph<T> implements Cloneable {
 		Vertex<T> v = new Vertex<T>(id);
 		allVertices.put(id, v);
 		return v;
+	}
+
+	// David (29.12.2020)
+	public void removeVertex(Vertex<T> vertex) {
+		List<Edge<T>> toDelete = vertex.getEdges();
+		for (int i = 0; i < toDelete.size(); i++) {
+			this.removeEdge(toDelete.get(i));
+		}
+		allVertices.remove(vertex.getId());
 	}
 
 	public Vertex<T> getVertex(long id) {
@@ -89,6 +81,14 @@ public class DirectedGraph<T> implements Cloneable {
 
 	public void addEdge(Edge<T> edge) {
 		addEdge(edge.getFrom(), edge.getTo());
+	}
+
+	public void addEdge(Vertex<T> from, Vertex<T> to) {
+		addEdge(from.getId(), to.getId());
+	}
+
+	public void addEdge(long fromId, long toId) {
+		addEdge(fromId, toId, 0);
 	}
 
 	// David (29.12.2020)
