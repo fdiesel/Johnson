@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 public class DirectedGraph<T> implements Cloneable {
 
 	private List<Edge<T>> allEdges;
-	private Map<Long, Vertex<T>> allVertices;
+	private Map<Integer, Vertex<T>> allVertices;
 
 	public DirectedGraph() {
 		allEdges = new ArrayList<Edge<T>>();
-		allVertices = new HashMap<Long, Vertex<T>>();
+		allVertices = new HashMap<Integer, Vertex<T>>();
 	}
 
 	public void addVertex(Vertex<T> vertex) {
@@ -35,7 +35,7 @@ public class DirectedGraph<T> implements Cloneable {
 		}
 	}
 
-	public Vertex<T> addSingleVertex(long id) {
+	public Vertex<T> addSingleVertex(int id) {
 		if (allVertices.containsKey(id)) {
 			return allVertices.get(id);
 		}
@@ -53,11 +53,11 @@ public class DirectedGraph<T> implements Cloneable {
 		allVertices.remove(vertex.getId());
 	}
 
-	public Vertex<T> getVertex(long id) {
+	public Vertex<T> getVertex(int id) {
 		return allVertices.get(id);
 	}
 
-	public void addEdge(long fromId, long toId, int weight) {
+	public void addEdge(int fromId, int toId, int weight) {
 		Vertex<T> vertex1 = null;
 		if (allVertices.containsKey(fromId)) {
 			vertex1 = allVertices.get(fromId);
@@ -87,7 +87,7 @@ public class DirectedGraph<T> implements Cloneable {
 		addEdge(from.getId(), to.getId());
 	}
 
-	public void addEdge(long fromId, long toId) {
+	public void addEdge(int fromId, int toId) {
 		addEdge(fromId, toId, 0);
 	}
 
@@ -114,7 +114,7 @@ public class DirectedGraph<T> implements Cloneable {
 		return allVertices.size();
 	}
 
-	public void setDataForVertex(long id, T data) {
+	public void setDataForVertex(int id, T data) {
 		if (allVertices.containsKey(id)) {
 			Vertex<T> vertex = allVertices.get(id);
 			vertex.setData(data);
@@ -142,13 +142,13 @@ public class DirectedGraph<T> implements Cloneable {
 	}
 
 	// David (29.12.2020)
-	public DirectedGraph<T> getSubGraph(Set<Long> idsToKeep) {
+	public DirectedGraph<T> getSubGraph(Set<Integer> idsToKeep) {
 
 		// create empty graph
 		DirectedGraph<T> graph = this.clone();
 		int vertexCount = graph.getVertexCount();
 		for (int i = 0; i != vertexCount; i++) {
-			if (!idsToKeep.contains((long) i))
+			if (!idsToKeep.contains(i))
 				graph.removeVertex(graph.getVertex(i));
 		}
 		return graph;
@@ -196,7 +196,8 @@ public class DirectedGraph<T> implements Cloneable {
 	}
 
 	/// loads graph from file
-	public static DirectedGraph<Integer> fromFile(String filename) throws InvalidPathException, IOException, SecurityException {
+	public static DirectedGraph<Integer> fromFile(String filename)
+			throws InvalidPathException, IOException, SecurityException {
 
 		Path path = Paths.get(filename);
 

@@ -5,16 +5,16 @@ import java.util.List;
 
 public class Vertex<T> {
 
-	private long id;
+	private int id;
 	private T data;
 	private List<Edge<T>> edges = new ArrayList<>();
 	private List<Vertex<T>> adjacentVertices = new ArrayList<>();
 
-	Vertex(long id) {
+	public Vertex(int id) {
 		this.id = id;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 

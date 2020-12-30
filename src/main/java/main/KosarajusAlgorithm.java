@@ -13,11 +13,11 @@ import graphs.Vertex;
 public class KosarajusAlgorithm {
 
 	// stores the vertices in order of finishing depth search
-	Deque<Long> stack;
+	Deque<Integer> stack;
 	// stores info if vertex has already been visited
 	boolean[] visited;
 	// list of strongly connected components found by algorithm
-	List<Set<Long>> result = new ArrayList<>();
+	List<Set<Integer>> result = new ArrayList<>();
 	// stores info if algorithm is in second part (changes a bit of depthSearch)
 	boolean afterReverse;
 
@@ -43,9 +43,9 @@ public class KosarajusAlgorithm {
 
 		// depthSearch on all not visited Elements of stack in order
 		while (!stack.isEmpty()) {
-			long current = stack.removeLast();
+			int current = stack.removeLast();
 			if (!visited[(int) current]) {
-				Set<Long> set = new HashSet<>();
+				Set<Integer> set = new HashSet<>();
 				depthSearch(current, graph, set);
 				result.add(set);
 				System.out.println(set); // temporary way to access strongly connected components till subGraph is fixed
@@ -59,7 +59,7 @@ public class KosarajusAlgorithm {
 		return subGraphs;
 	}
 
-	public void depthSearch(long vertexId, DirectedGraph<Integer> graph, Set<Long> set) {
+	public void depthSearch(int vertexId, DirectedGraph<Integer> graph, Set<Integer> set) {
 		visited[(int) vertexId] = true;
 		if (afterReverse)
 			set.add(vertexId); // if in part 2 of algo build strongly connected component in set
