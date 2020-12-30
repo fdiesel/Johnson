@@ -3,9 +3,9 @@ package graphs;
 import java.util.ArrayList;
 import java.util.List;
 
-class Vertex<T> {
+public class Vertex<T> {
 
-	long id;
+	private long id;
 	private T data;
 	private List<Edge<T>> edges = new ArrayList<>();
 	private List<Vertex<T>> adjacentVertex = new ArrayList<>();

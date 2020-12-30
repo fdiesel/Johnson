@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import graphs.Graph;
+import graphs.Vertex;
+
 public class KosarajusAlgorithm {
 
 	// stores the vertices in order of finishing depth search
@@ -63,7 +66,7 @@ public class KosarajusAlgorithm {
 		// for each adjacent vertex not visited do depthSearch (= recursive
 		// implementation of depthSearch)
 		for (Vertex<Integer> current : graph.getVertex(vertexId).getAdjacentVertices()) {
-			int currentID = (int) current.id;
+			int currentID = (int) current.getId();
 			if (!visited[currentID]) {
 				depthSearch(currentID, graph, set);
 			}

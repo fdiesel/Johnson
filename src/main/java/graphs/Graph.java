@@ -1,4 +1,4 @@
-package de.floriandiesel.Johnson;
+package graphs;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,7 +30,7 @@ public class Graph<T> implements Cloneable {
 	}
 
 	public void addEdge(Vertex<T> from, Vertex<T> to) {
-		addEdge(from.id, to.id);
+		addEdge(from.getId(), to.getId());
 	}
 
 	public void addVertex(Vertex<T> vertex) {

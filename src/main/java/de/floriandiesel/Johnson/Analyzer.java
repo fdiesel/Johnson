@@ -1,5 +1,7 @@
 package de.floriandiesel.Johnson;
 
+import graphs.Graph;
+
 public class Analyzer {
 
 	static final String filename = "data.txt";

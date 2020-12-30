@@ -3,6 +3,8 @@ package de.floriandiesel.Johnson;
 import java.io.IOException;
 import java.util.List;
 
+import graphs.Graph;
+
 public class Johnson {
 
 	public static void main(String[] args) throws IOException {

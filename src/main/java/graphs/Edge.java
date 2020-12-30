@@ -1,6 +1,6 @@
 package graphs;
 
-class Edge<T> {
+public class Edge<T> {
 
 	private Vertex<T> from;
 	private Vertex<T> to;
@@ -63,7 +63,7 @@ class Edge<T> {
 
 	@Override
 	public String toString() {
-		return String.format("(%2d -- %-2d)", from.id, to.id);
+		return String.format("(%2d -- %-2d)", from.getId(), to.getId());
 	}
 
 }
