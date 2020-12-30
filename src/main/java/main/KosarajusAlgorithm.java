@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import graphs.Graph;
+import graphs.DirectedGraph;
 import graphs.Vertex;
 
 public class KosarajusAlgorithm {
@@ -21,9 +21,9 @@ public class KosarajusAlgorithm {
 	// stores info if algorithm is in second part (changes a bit of depthSearch)
 	boolean afterReverse;
 
-	public List<Graph<Integer>> findStronglyConnectedComponents(Graph<Integer> inputGraph) {
+	public List<DirectedGraph<Integer>> findStronglyConnectedComponents(DirectedGraph<Integer> inputGraph) {
 		// clone graph to not modify inputGraph
-		Graph<Integer> graph = inputGraph.clone();
+		DirectedGraph<Integer> graph = inputGraph.clone();
 		result.clear();
 		afterReverse = false;
 		int vertices = graph.getVertexCount();
@@ -52,14 +52,14 @@ public class KosarajusAlgorithm {
 			}
 		}
 		// subGraph routine is not working correctly (error here or in Graph.java)
-		List<Graph<Integer>> subGraphs = new ArrayList<Graph<Integer>>();
+		List<DirectedGraph<Integer>> subGraphs = new ArrayList<DirectedGraph<Integer>>();
 
 		result.forEach(set -> subGraphs.add(inputGraph.getSubGraph(set)));
 
 		return subGraphs;
 	}
 
-	public void depthSearch(long vertexId, Graph<Integer> graph, Set<Long> set) {
+	public void depthSearch(long vertexId, DirectedGraph<Integer> graph, Set<Long> set) {
 		visited[(int) vertexId] = true;
 		if (afterReverse)
 			set.add(vertexId); // if in part 2 of algo build strongly connected component in set

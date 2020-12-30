@@ -9,7 +9,7 @@ public class Edge<T> {
 	Edge(Vertex<T> vertex1, Vertex<T> vertex2) {
 		this.from = vertex1;
 		this.to = vertex2;
-		this.weight = 0;
+		this.weight = 1;
 	}
 
 	Edge(Vertex<T> vertex1, Vertex<T> vertex2, int weight) {

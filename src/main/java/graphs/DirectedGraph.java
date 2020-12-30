@@ -15,12 +15,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Graph<T> implements Cloneable {
+public class DirectedGraph<T> implements Cloneable {
 
 	private List<Edge<T>> allEdges;
 	private Map<Long, Vertex<T>> allVertices;
 
-	public Graph() {
+	public DirectedGraph() {
 		allEdges = new ArrayList<Edge<T>>();
 		allVertices = new HashMap<Long, Vertex<T>>();
 	}
@@ -121,16 +121,16 @@ public class Graph<T> implements Cloneable {
 		}
 	}
 
-	public Graph<T> clone() {
-		Graph<T> graph = new Graph<T>();
+	public DirectedGraph<T> clone() {
+		DirectedGraph<T> graph = new DirectedGraph<T>();
 		this.getAllVertices().forEach(graph::addVertex);
 		this.getAllEdges().forEach(graph::addEdge);
 		return graph;
 	}
 
 	// David (29.12.2020)
-	public Graph<T> reverse() {
-		Graph<T> outputGraph = new Graph<T>();
+	public DirectedGraph<T> reverse() {
+		DirectedGraph<T> outputGraph = new DirectedGraph<T>();
 		List<Edge<T>> edges = getAllEdges();
 		for (int i = 0; i != edges.size(); i++) {
 			Edge<T> edge = edges.get(i);
@@ -142,10 +142,10 @@ public class Graph<T> implements Cloneable {
 	}
 
 	// David (29.12.2020)
-	public Graph<T> getSubGraph(Set<Long> idsToKeep) {
+	public DirectedGraph<T> getSubGraph(Set<Long> idsToKeep) {
 
 		// create empty graph
-		Graph<T> graph = this.clone();
+		DirectedGraph<T> graph = this.clone();
 		int vertexCount = graph.getVertexCount();
 		for (int i = 0; i != vertexCount; i++) {
 			if (!idsToKeep.contains((long) i))
@@ -159,7 +159,7 @@ public class Graph<T> implements Cloneable {
 		return String.join("\n", getAllEdges().stream().map(edge -> edge.toString()).collect(Collectors.toList()));
 	}
 
-	public static Graph<Integer> fromString(String edgeString) {
+	public static DirectedGraph<Integer> fromString(String edgeString) {
 
 		// edge string pattern
 		final Pattern pattern = Pattern.compile(
@@ -170,7 +170,7 @@ public class Graph<T> implements Cloneable {
 		Matcher matcher = pattern.matcher(edgeString);
 
 		// new directed graph
-		Graph<Integer> graph = new Graph<>();
+		DirectedGraph<Integer> graph = new DirectedGraph<>();
 
 		// create vertices and edges
 		while (matcher.find()) {
@@ -196,7 +196,7 @@ public class Graph<T> implements Cloneable {
 	}
 
 	/// loads graph from file
-	public static Graph<Integer> fromFile(String filename) throws InvalidPathException, IOException, SecurityException {
+	public static DirectedGraph<Integer> fromFile(String filename) throws InvalidPathException, IOException, SecurityException {
 
 		Path path = Paths.get(filename);
 

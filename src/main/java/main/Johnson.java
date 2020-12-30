@@ -3,13 +3,13 @@ package main;
 import java.io.IOException;
 import java.util.List;
 
-import graphs.Graph;
+import graphs.DirectedGraph;
 
 public class Johnson {
 
 	public static void main(String[] args) throws IOException {
 
-		Graph<Integer> graph = Graph.fromString("{1,2}\n" +
+		DirectedGraph<Integer> graph = DirectedGraph.fromString("{1,2}\n" +
 				"{1,8}\n" +
 				"{2,3}\n" +
 				"{2,7}\n" +
@@ -28,7 +28,7 @@ public class Johnson {
 
 		KosarajusAlgorithm kAlg = new KosarajusAlgorithm();
 
-		List<Graph<Integer>> subGraphs = kAlg.findStronglyConnectedComponents(graph);
+		List<DirectedGraph<Integer>> subGraphs = kAlg.findStronglyConnectedComponents(graph);
 
 		// subGraphs.forEach(System.out::println);
 

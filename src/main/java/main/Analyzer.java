@@ -1,6 +1,6 @@
 package main;
 
-import graphs.Graph;
+import graphs.DirectedGraph;
 
 public class Analyzer {
 
@@ -8,7 +8,7 @@ public class Analyzer {
 
 	public static void main(String[] args) throws Exception {
 
-		Graph<Integer> graph = Graph.fromFile(filename);
+		DirectedGraph<Integer> graph = DirectedGraph.fromFile(filename);
 
 		System.out.println(graph);
 
