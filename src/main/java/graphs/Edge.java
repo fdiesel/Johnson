@@ -9,10 +9,9 @@ public class Edge<T> {
 
 	private Vertex<T> from;
 	private Vertex<T> to;
-	private int weight;
 
 	/**
-	 * Creates a new Edge with a standard weight of 1
+	 * Creates a new Edge
 	 * 
 	 * @param from source Vertex of the connection
 	 * @param to   destination Vertex of the connection
@@ -20,20 +19,6 @@ public class Edge<T> {
 	public Edge(Vertex<T> from, Vertex<T> to) {
 		this.from = from;
 		this.to = to;
-		this.weight = 1;
-	}
-
-	/**
-	 * Creates a new Edge
-	 * 
-	 * @param from   source Vertex of the connection
-	 * @param to     destination Vertex of the connection
-	 * @param weight of the Edge
-	 */
-	public Edge(Vertex<T> from, Vertex<T> to, int weight) {
-		this.from = from;
-		this.to = to;
-		this.weight = weight;
 	}
 
 	/**
@@ -51,14 +36,7 @@ public class Edge<T> {
 	}
 
 	/**
-	 * @return weight of the Edge
-	 */
-	public int getWeight() {
-		return weight;
-	}
-
-	/**
-	 * @return hashCode, including the Vertices and weights hashCode
+	 * @return hashCode, including the Vertices
 	 */
 	@Override
 	public int hashCode() {
@@ -66,13 +44,11 @@ public class Edge<T> {
 		int result = 1;
 		result = prime * result + ((from == null) ? 0 : from.hashCode());
 		result = prime * result + ((to == null) ? 0 : to.hashCode());
-		result = prime * result + Integer.hashCode(weight);
 		return result;
 	}
 
 	/**
-	 * @return equality of the objects types, source and destination Vertices and
-	 *         Edge weights
+	 * @return true on equal types, Vertices (ids)
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -96,12 +72,11 @@ public class Edge<T> {
 		} else if (!to.equals(other.to)) {
 			return false;
 		}
-		// Edge weights
-		return this.weight == other.weight;
+		return true;
 	}
 
 	/**
-	 * @return source and destination ids in a string
+	 * @return source and destination ids in a String
 	 */
 	@Override
 	public String toString() {
