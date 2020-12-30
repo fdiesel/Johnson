@@ -6,27 +6,27 @@ public class Edge<T> {
 	private Vertex<T> to;
 	private int weight;
 
-	Edge(Vertex<T> from, Vertex<T> to) {
+	public Edge(Vertex<T> from, Vertex<T> to) {
 		this.from = from;
 		this.to = to;
 		this.weight = 1;
 	}
 
-	Edge(Vertex<T> from, Vertex<T> to, int weight) {
+	public Edge(Vertex<T> from, Vertex<T> to, int weight) {
 		this.from = from;
 		this.to = to;
 		this.weight = weight;
 	}
 
-	Vertex<T> getFrom() {
+	public Vertex<T> getFrom() {
 		return from;
 	}
 
-	Vertex<T> getTo() {
+	public Vertex<T> getTo() {
 		return to;
 	}
 
-	int getWeight() {
+	public int getWeight() {
 		return weight;
 	}
 

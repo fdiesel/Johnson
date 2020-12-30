@@ -8,7 +8,7 @@ public class Vertex<T> {
 	private long id;
 	private T data;
 	private List<Edge<T>> edges = new ArrayList<>();
-	private List<Vertex<T>> adjacentVertex = new ArrayList<>();
+	private List<Vertex<T>> adjacentVertices = new ArrayList<>();
 
 	Vertex(long id) {
 		this.id = id;
@@ -28,18 +28,18 @@ public class Vertex<T> {
 
 	// David (29.12.2020)
 	public int adjacentVertexCount() {
-		return adjacentVertex.size();
+		return adjacentVertices.size();
 	}
 
 	public void addAdjacentVertex(Edge<T> e, Vertex<T> v) {
 		edges.add(e);
-		adjacentVertex.add(v);
+		adjacentVertices.add(v);
 	}
 
 	// David (29.12.2020)
 	public void removeAdjacentVertex(Edge<T> e, Vertex<T> v) {
 		edges.remove(e);
-		adjacentVertex.remove(v);
+		adjacentVertices.remove(v);
 	}
 
 	public String toString() {
@@ -47,7 +47,7 @@ public class Vertex<T> {
 	}
 
 	public List<Vertex<T>> getAdjacentVertices() {
-		return adjacentVertex;
+		return adjacentVertices;
 	}
 
 	public List<Edge<T>> getEdges() {
