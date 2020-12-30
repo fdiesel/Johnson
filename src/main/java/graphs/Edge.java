@@ -57,6 +57,9 @@ public class Edge<T> {
 		return weight;
 	}
 
+	/**
+	 * @return hashCode, including the Vertices and weights hashCode
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
