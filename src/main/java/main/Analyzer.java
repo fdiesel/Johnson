@@ -1,4 +1,4 @@
-package de.floriandiesel.Johnson;
+package main;
 
 import graphs.Graph;
 

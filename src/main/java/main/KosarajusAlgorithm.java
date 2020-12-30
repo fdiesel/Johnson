@@ -1,4 +1,4 @@
-package de.floriandiesel.Johnson;
+package main;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
