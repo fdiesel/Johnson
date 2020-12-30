@@ -6,15 +6,15 @@ public class Edge<T> {
 	private Vertex<T> to;
 	private int weight;
 
-	Edge(Vertex<T> vertex1, Vertex<T> vertex2) {
-		this.from = vertex1;
-		this.to = vertex2;
+	Edge(Vertex<T> from, Vertex<T> to) {
+		this.from = from;
+		this.to = to;
 		this.weight = 1;
 	}
 
-	Edge(Vertex<T> vertex1, Vertex<T> vertex2, int weight) {
-		this.from = vertex1;
-		this.to = vertex2;
+	Edge(Vertex<T> from, Vertex<T> to, int weight) {
+		this.from = from;
+		this.to = to;
 		this.weight = weight;
 	}
 
