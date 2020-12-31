@@ -2,52 +2,86 @@ package graphs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+/**
+ * Consists of an ID, data and outgoing connected Edges
+ *
+ * @param <T> type of the data
+ */
 public class Vertex<T> {
 
 	private int id;
-	private T data;
-	private List<Edge<T>> edges = new ArrayList<>();
-	private List<Vertex<T>> adjacentVertices = new ArrayList<>();
+	private Optional<T> data;
+	private List<Edge<T>> edges;
 
+	/**
+	 * Creates a new Vertex
+	 * 
+	 * @param id of the Edge
+	 */
+	public Vertex(int id, T data) {
+		this.id = id;
+		this.data = Optional.of(data);
+		this.edges = new ArrayList<>();
+	}
+
+	/**
+	 * Creates a new empty Vertex
+	 * 
+	 * @param id of the Edge
+	 */
 	public Vertex(int id) {
 		this.id = id;
+		this.data = Optional.empty();
+		this.edges = new ArrayList<>();
+	}
+
+	/**
+	 * Appends the Vertex and creates the corresponding Edge
+	 * 
+	 * @param vertex to append
+	 * @return the created Edge
+	 */
+	public Edge<T> append(Vertex<T> vertex) {
+		Edge<T> edge = new Edge<>(this, vertex);
+		edges.add(edge);
+		return edge;
+	}
+
+	/**
+	 * Removes the Vertex and its Edge by ID
+	 * 
+	 * @param vertexId to look for
+	 * @return if the Vertex has been removed
+	 */
+	public boolean remove(int vertexId) {
+		return edges.removeIf(edge -> edge.getTo().getId() == vertexId);
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public void setData(T data) {
-		this.data = data;
+	public boolean hasData() {
+		return data.isPresent();
 	}
 
 	public T getData() {
-		return data;
+		return data.get();
 	}
 
-	// David (29.12.2020)
-	public int adjacentVertexCount() {
-		return adjacentVertices.size();
-	}
-
-	public void addAdjacentVertex(Edge<T> e, Vertex<T> v) {
-		edges.add(e);
-		adjacentVertices.add(v);
-	}
-
-	// David (29.12.2020)
-	public void removeAdjacentVertex(Edge<T> e, Vertex<T> v) {
-		edges.remove(e);
-		adjacentVertices.remove(v);
-	}
-
-	public String toString() {
-		return String.valueOf(id);
+	public void setData(T data) {
+		this.data = Optional.of(data);
 	}
 
 	public List<Vertex<T>> getAdjacentVertices() {
-		return adjacentVertices;
+		return edges.stream().map(edge -> edge.getTo()).collect(Collectors.toList());
+	}
+
+	public int getAdjacentVertexCount() {
+		return this.edges.size();
 	}
 
 	public List<Edge<T>> getEdges() {
@@ -56,6 +90,11 @@ public class Vertex<T> {
 
 	public int getDegree() {
 		return edges.size();
+	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(id);
 	}
 
 	@Override
