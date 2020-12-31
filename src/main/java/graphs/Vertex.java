@@ -19,7 +19,8 @@ public class Vertex<T> {
 	/**
 	 * Creates a new Vertex
 	 * 
-	 * @param id of the Edge
+	 * @param id   of the Edge
+	 * @param data to append
 	 */
 	public Vertex(int id, T data) {
 		this.id = id;
