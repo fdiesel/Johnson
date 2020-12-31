@@ -57,26 +57,23 @@ public class DirectedGraph<T> implements Cloneable {
 		return allVertices.get(id);
 	}
 
-	public void addEdge(int fromId, int toId, int weight) {
-		Vertex<T> vertex1 = null;
+	public void addEdge(int fromId, int toId) {
+		Vertex<T> fromVertex = null;
 		if (allVertices.containsKey(fromId)) {
-			vertex1 = allVertices.get(fromId);
+			fromVertex = allVertices.get(fromId);
 		} else {
-			vertex1 = new Vertex<T>(fromId);
-			allVertices.put(fromId, vertex1);
+			fromVertex = new Vertex<T>(fromId);
+			allVertices.put(fromId, fromVertex);
 		}
-		Vertex<T> vertex2 = null;
+		Vertex<T> toVertex = null;
 		if (allVertices.containsKey(toId)) {
-			vertex2 = allVertices.get(toId);
+			toVertex = allVertices.get(toId);
 		} else {
-			vertex2 = new Vertex<T>(toId);
-			allVertices.put(toId, vertex2);
+			toVertex = new Vertex<T>(toId);
+			allVertices.put(toId, toVertex);
 		}
-
-		Edge<T> edge = new Edge<T>(vertex1, vertex2, weight);
+		Edge<T> edge = fromVertex.append(toVertex);
 		allEdges.add(edge);
-		vertex1.addAdjacentVertex(edge, vertex2);
-
 	}
 
 	public void addEdge(Edge<T> edge) {
@@ -87,18 +84,14 @@ public class DirectedGraph<T> implements Cloneable {
 		addEdge(from.getId(), to.getId());
 	}
 
-	public void addEdge(int fromId, int toId) {
-		addEdge(fromId, toId, 0);
-	}
-
 	// David (29.12.2020)
 	public void removeEdge(Edge<T> edge) {
 		if (allEdges.contains(edge)) {
 			allEdges.remove(edge);
 			Vertex<T> vertex1 = edge.getFrom();
 			Vertex<T> vertex2 = edge.getTo();
-			vertex1.removeAdjacentVertex(edge, vertex2);
-			vertex2.removeAdjacentVertex(edge, vertex1);
+			vertex1.remove(vertex2.getId());
+			vertex2.remove(vertex1.getId());
 		}
 	}
 
