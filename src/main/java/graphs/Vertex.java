@@ -116,9 +116,7 @@ public class Vertex<T> {
 			return false;
 		@SuppressWarnings("unchecked")
 		Vertex<T> other = (Vertex<T>) obj;
-		if (id != other.id)
-			return false;
-		return true;
+		return this.id == other.id;
 	}
 
 }
