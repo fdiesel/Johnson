@@ -94,6 +94,18 @@ public class Vertex<T> {
 		return edges.size();
 	}
 
+	/**
+	 * Deep copy Vertex without its Edges
+	 * 
+	 * @return deep copy of the Vertex
+	 */
+	public Vertex<T> cloneWithoutEdges() {
+		Vertex<T> vertexCopy = new Vertex<>(this.id);
+		if (this.hasData())
+			vertexCopy.setData(this.getData());
+		return vertexCopy;
+	}
+
 	@Override
 	public String toString() {
 		return String.valueOf(id);
