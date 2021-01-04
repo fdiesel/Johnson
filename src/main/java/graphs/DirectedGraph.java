@@ -44,13 +44,25 @@ public class DirectedGraph<T> implements Cloneable {
 		return v;
 	}
 
-	// David (29.12.2020)
-	public void removeVertex(Vertex<T> vertex) {
-		List<Edge<T>> toDelete = vertex.getEdges();
-		for (int i = 0; i < toDelete.size(); i++) {
-			this.removeEdge(toDelete.get(i));
-		}
-		allVertices.remove(vertex.getId());
+	/**
+	 * Removes a Vertex and all its Edges
+	 * from the Graph itself and the Vertexes adjacent Vertices
+	 * 
+	 * @param id of the Vertex to remove
+	 */
+	public void removeVertex(int id) {
+
+		// Remove Vertex as adjacent Vertex from all connected Vertices
+		allEdges.stream()
+				.filter(edge -> edge.getTo().getId() == id)
+				.forEach(edge -> edge.getFrom().remove(id));
+
+		// Remove Edges from Graph
+		allEdges.removeIf(edge -> edge.getFrom().getId() == id || edge.getTo().getId() == id);
+
+		// Remove Vertex form Graph
+		allVertices.remove(id);
+
 	}
 
 	public Vertex<T> getVertex(int id) {
@@ -142,7 +154,7 @@ public class DirectedGraph<T> implements Cloneable {
 		int vertexCount = graph.getVertexCount();
 		for (int i = 0; i != vertexCount; i++) {
 			if (!idsToKeep.contains(i))
-				graph.removeVertex(graph.getVertex(i));
+				graph.removeVertex(graph.getVertex(i).getId());
 		}
 		return graph;
 	}
