@@ -166,6 +166,28 @@ public class DirectedGraph<T> implements Cloneable {
 		return graph;
 	}
 
+	/**
+	 * Creates a SubGraph containing all the Vertices with an ID higher than
+	 * minVertexId
+	 * 
+	 * @param minVertexId minimum id to look for
+	 * @return SubGraph
+	 */
+	public DirectedGraph<T> getSubGraph(int minVertexId) {
+
+		// create empty subgraph
+		DirectedGraph<T> subGraph = new DirectedGraph<>();
+
+		// add all Edges to the graph with ids >= minVertexId
+		for (Edge<T> edge : this.getAllEdges()) {
+			if (edge.getFrom().getId() >= minVertexId && edge.getTo().getId() >= minVertexId) {
+				subGraph.addEdge(edge.getFrom().getId(), edge.getTo().getId());
+			}
+		}
+
+		return subGraph;
+	}
+
 	@Override
 	public String toString() {
 		return allVertices.values().toString() + "\n"
