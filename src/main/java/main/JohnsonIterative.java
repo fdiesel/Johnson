@@ -11,7 +11,7 @@ import java.util.Stack;
 import graphs.DirectedGraph;
 import graphs.Vertex;
 
-public class Johnson<T> {
+public class JohnsonIterative<T> {
 
 	Set<Vertex<T>> blockedSet = new HashSet<>();
 	Map<Vertex<T>, Set<Vertex<T>>> blockedMap = new HashMap<>();
