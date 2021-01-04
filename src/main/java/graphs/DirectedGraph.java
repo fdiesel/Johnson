@@ -156,19 +156,20 @@ public class DirectedGraph<T> implements Cloneable {
 
 		// clone graph
 		DirectedGraph<T> graph = this.clone();
-		int vertexCount = graph.getVertexCount();
 
 		// remove not needed Vertices
-		for (int i = 0; i != vertexCount; i++) {
-			if (!idsToKeep.contains(i))
-				graph.removeVertex(graph.getVertex(i).getId());
+		for (Vertex<T> vertex : getAllVertices()) {
+			if (!idsToKeep.contains(vertex.getId()))
+				graph.removeVertex(vertex.getId());
 		}
+
 		return graph;
 	}
 
 	@Override
 	public String toString() {
-		return String.join("\n", getAllEdges().stream().map(edge -> edge.toString()).collect(Collectors.toList()));
+		return allVertices.values().toString() + "\n"
+				+ String.join("\n", getAllEdges().stream().map(edge -> edge.toString()).collect(Collectors.toList()));
 	}
 
 	public static DirectedGraph<Integer> fromString(String edgeString) {
