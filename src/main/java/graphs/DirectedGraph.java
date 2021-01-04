@@ -52,15 +52,15 @@ public class DirectedGraph<T> implements Cloneable {
 	 */
 	public void removeVertex(int id) {
 
-		// Remove Vertex as adjacent Vertex from all connected Vertices
+		// remove Vertex as adjacent Vertex from all connected Vertices
 		allEdges.stream()
 				.filter(edge -> edge.getTo().getId() == id)
 				.forEach(edge -> edge.getFrom().remove(id));
 
-		// Remove Edges from Graph
+		// remove Edges from Graph
 		allEdges.removeIf(edge -> edge.getFrom().getId() == id || edge.getTo().getId() == id);
 
-		// Remove Vertex form Graph
+		// remove Vertex form Graph
 		allVertices.remove(id);
 
 	}
@@ -127,13 +127,28 @@ public class DirectedGraph<T> implements Cloneable {
 	}
 
 	/**
-	 * Creates a copy of all Vertices and reconnects them by all Edges
+	 * Creates a deep copy of all Vertices and reconnects them
+	 * 
+	 * @return deep copy of the Graph
 	 */
 	public DirectedGraph<T> clone() {
-		DirectedGraph<T> graph = new DirectedGraph<T>();
-		this.getAllVertices().forEach(graph::addVertex);
-		this.getAllEdges().forEach(graph::addEdge);
-		return graph;
+
+		DirectedGraph<T> graphCopy = new DirectedGraph<T>();
+
+		// deep copy Vertices
+		this.getAllVertices().forEach(vertex -> {
+			Vertex<T> vertexCopy = new Vertex<T>(vertex.getId());
+			if (vertex.hasData())
+				vertexCopy.setData(vertex.getData());
+			graphCopy.addVertex(vertexCopy);
+		});
+
+		// deep copy Edges
+		this.getAllEdges().forEach(edge -> {
+			graphCopy.addEdge(edge.getFrom().getId(), edge.getTo().getId());
+		});
+
+		return graphCopy;
 	}
 
 	// David (29.12.2020)
