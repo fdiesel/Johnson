@@ -156,19 +156,42 @@ public class DirectedGraph<T> implements Cloneable {
 
 		// clone graph
 		DirectedGraph<T> graph = this.clone();
-		int vertexCount = graph.getVertexCount();
 
 		// remove not needed Vertices
-		for (int i = 0; i != vertexCount; i++) {
-			if (!idsToKeep.contains(i))
-				graph.removeVertex(graph.getVertex(i).getId());
+		for (Vertex<T> vertex : getAllVertices()) {
+			if (!idsToKeep.contains(vertex.getId()))
+				graph.removeVertex(vertex.getId());
 		}
+
 		return graph;
+	}
+
+	/**
+	 * Creates a SubGraph containing all the Vertices with an ID higher than
+	 * minVertexId
+	 * 
+	 * @param minVertexId minimum id to look for
+	 * @return SubGraph
+	 */
+	public DirectedGraph<T> getSubGraph(int minVertexId) {
+
+		// create empty subgraph
+		DirectedGraph<T> subGraph = new DirectedGraph<>();
+
+		// add all Edges to the graph with ids >= minVertexId
+		for (Edge<T> edge : this.getAllEdges()) {
+			if (edge.getFrom().getId() >= minVertexId && edge.getTo().getId() >= minVertexId) {
+				subGraph.addEdge(edge.getFrom().getId(), edge.getTo().getId());
+			}
+		}
+
+		return subGraph;
 	}
 
 	@Override
 	public String toString() {
-		return String.join("\n", getAllEdges().stream().map(edge -> edge.toString()).collect(Collectors.toList()));
+		return allVertices.values().toString() + "\n"
+				+ String.join("\n", getAllEdges().stream().map(edge -> edge.toString()).collect(Collectors.toList()));
 	}
 
 	public boolean equals(DirectedGraph<T> otherGraph) {
