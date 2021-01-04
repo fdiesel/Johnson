@@ -171,6 +171,24 @@ public class DirectedGraph<T> implements Cloneable {
 		return String.join("\n", getAllEdges().stream().map(edge -> edge.toString()).collect(Collectors.toList()));
 	}
 
+	public boolean equals(DirectedGraph<T> otherGraph) {
+		if(this.getVertexCount() != otherGraph.getVertexCount())
+			return false;
+
+		List<Edge<T>> myEdges = this.getAllEdges();
+		List<Edge<T>> otherEdges = otherGraph.getAllEdges();
+
+		if(myEdges.size() != otherEdges.size())
+			return false;
+
+		for (Edge<T> myEdge: myEdges) {
+			if(otherEdges.stream().noneMatch(myEdge::equals))
+				return false;
+		}
+
+		return true;
+	}
+
 	public static DirectedGraph<Integer> fromString(String edgeString) {
 
 		// edge string pattern
