@@ -126,6 +126,9 @@ public class DirectedGraph<T> implements Cloneable {
 		}
 	}
 
+	/**
+	 * Creates a copy of all Vertices and reconnects them by all Edges
+	 */
 	public DirectedGraph<T> clone() {
 		DirectedGraph<T> graph = new DirectedGraph<T>();
 		this.getAllVertices().forEach(graph::addVertex);
