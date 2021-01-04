@@ -13,12 +13,12 @@ import graphs.Vertex;
 
 public class Johnson<T> {
 
-	Stack<Vertex<T>> stack;
-	Set<Vertex<T>> blockedSet;
-	Map<Vertex<T>, Set<Vertex<T>>> blockedMap;
-	DirectedGraph<T> currentGraph;
-	Vertex<T> startVertex;
-	List<DirectedGraph<T>> results;
+	private Stack<Vertex<T>> stack;
+	private Set<Vertex<T>> blockedSet;
+	private Map<Vertex<T>, Set<Vertex<T>>> blockedMap;
+	private DirectedGraph<T> currentGraph;
+	private Vertex<T> startVertex;
+	private List<DirectedGraph<T>> results;
 
 	public List<DirectedGraph<T>> getCycles(DirectedGraph<T> graph) {
 		stack = new Stack<>();
@@ -43,7 +43,7 @@ public class Johnson<T> {
 		return results;
 	}
 
-	public void explore(Vertex<T> currentVertex) {
+	private void explore(Vertex<T> currentVertex) {
 		for (Vertex<T> neighbour : currentVertex.getAdjacentVertices()) {
 			if (neighbour.equals(startVertex)) {
 				addCurrentStackToResults();
