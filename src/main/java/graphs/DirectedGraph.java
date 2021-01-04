@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,8 +66,8 @@ public class DirectedGraph<T> implements Cloneable {
 		return allVertices.get(id);
 	}
 
-	public Collection<Vertex<T>> getAllVertices() {
-		return allVertices.values();
+	public List<Vertex<T>> getAllVertices() {
+		return new ArrayList<Vertex<T>>(allVertices.values());
 	}
 
 	public int getVertexCount() {
@@ -195,17 +195,17 @@ public class DirectedGraph<T> implements Cloneable {
 	}
 
 	public boolean equals(DirectedGraph<T> otherGraph) {
-		if(this.getVertexCount() != otherGraph.getVertexCount())
+		if (this.getVertexCount() != otherGraph.getVertexCount())
 			return false;
 
 		List<Edge<T>> myEdges = this.getAllEdges();
 		List<Edge<T>> otherEdges = otherGraph.getAllEdges();
 
-		if(myEdges.size() != otherEdges.size())
+		if (myEdges.size() != otherEdges.size())
 			return false;
 
-		for (Edge<T> myEdge: myEdges) {
-			if(otherEdges.stream().noneMatch(myEdge::equals))
+		for (Edge<T> myEdge : myEdges) {
+			if (otherEdges.stream().noneMatch(myEdge::equals))
 				return false;
 		}
 
