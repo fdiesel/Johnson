@@ -46,6 +46,7 @@ public class Vertex<T> {
 	 * @return the created Edge
 	 */
 	public Edge<T> append(Vertex<T> vertex) {
+		remove(vertex.getId());
 		Edge<T> edge = new Edge<>(this, vertex);
 		edges.add(edge);
 		return edge;
@@ -54,11 +55,11 @@ public class Vertex<T> {
 	/**
 	 * Removes the Vertex and its Edge by ID
 	 * 
-	 * @param vertexId to look for
+	 * @param id of the Vertex to look for
 	 * @return if the Vertex has been removed
 	 */
-	public boolean remove(int vertexId) {
-		return edges.removeIf(edge -> edge.getTo().getId() == vertexId);
+	public boolean remove(int id) {
+		return edges.removeIf(edge -> edge.getTo().getId() == id);
 	}
 
 	public int getId() {
