@@ -10,21 +10,21 @@ import java.util.Set;
 import graphs.DirectedGraph;
 import graphs.Vertex;
 
-public class KosarajusAlgorithm {
+public class KosarajusAlgorithm<T> {
 
 	// stores the vertices in order of finishing depth search
-	Deque<Integer> stack;
+	private Deque<Integer> stack;
 	// stores info if vertex has already been visited
-	Set<Integer> visited;
+	private Set<Integer> visited;
 	// list of strongly connected components found by algorithm
-	List<Set<Integer>> result = new ArrayList<>();
+	private List<Set<Integer>> result = new ArrayList<>();
 	// stores info if algorithm is in second part (changes a bit of depthSearch)
-	boolean afterReverse;
+	private boolean afterReverse;
 
-	public List<DirectedGraph<Integer>> findStronglyConnectedComponents(DirectedGraph<Integer> inputGraph) {
+	public List<DirectedGraph<T>> findStronglyConnectedComponents(DirectedGraph<T> inputGraph) {
 
 		// clone graph to not modify inputGraph
-		DirectedGraph<Integer> graph = inputGraph.clone();
+		DirectedGraph<T> graph = inputGraph.clone();
 		result.clear();
 		afterReverse = false;
 		int vertices = graph.getVertexCount();
@@ -32,7 +32,7 @@ public class KosarajusAlgorithm {
 		stack = new ArrayDeque<>();
 
 		// depthSearch on all vertices not visited
-		for (Vertex<Integer> vertex : graph.getAllVertices()) {
+		for (Vertex<T> vertex : graph.getAllVertices()) {
 			if (!visited.contains(vertex.getId())) {
 				// null input because not needed before (afterReverse = true)
 				depthSearch(vertex.getId(), graph, null);
@@ -55,20 +55,20 @@ public class KosarajusAlgorithm {
 			}
 		}
 
-		List<DirectedGraph<Integer>> subGraphs = new ArrayList<DirectedGraph<Integer>>();
+		List<DirectedGraph<T>> subGraphs = new ArrayList<>();
 
 		result.forEach(set -> subGraphs.add(inputGraph.getSubGraph(set)));
 
 		return subGraphs;
 	}
 
-	public void depthSearch(int vertexId, DirectedGraph<Integer> graph, Set<Integer> set) {
+	private void depthSearch(int vertexId, DirectedGraph<T> graph, Set<Integer> set) {
 		visited.add(vertexId);
 		if (afterReverse)
 			set.add(vertexId); // if in part 2 of algo build strongly connected component in set
 		// for each adjacent vertex not visited do depthSearch (= recursive
 		// implementation of depthSearch)
-		for (Vertex<Integer> current : graph.getVertex(vertexId).getAdjacentVertices()) {
+		for (Vertex<T> current : graph.getVertex(vertexId).getAdjacentVertices()) {
 			int currentID = current.getId();
 			if (!visited.contains(currentID)) {
 				depthSearch(currentID, graph, set);
