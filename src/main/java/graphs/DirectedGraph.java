@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -17,11 +16,9 @@ import java.util.stream.Collectors;
 
 public class DirectedGraph<T> implements Cloneable {
 
-	private List<Edge<T>> allEdges;
 	private Map<Integer, Vertex<T>> allVertices;
 
 	public DirectedGraph() {
-		allEdges = new ArrayList<Edge<T>>();
 		allVertices = new HashMap<Integer, Vertex<T>>();
 	}
 
@@ -30,9 +27,6 @@ public class DirectedGraph<T> implements Cloneable {
 			return;
 		}
 		allVertices.put(vertex.getId(), vertex);
-		for (Edge<T> edge : vertex.getEdges()) {
-			allEdges.add(edge);
-		}
 	}
 
 	public Vertex<T> addSingleVertex(int id) {
@@ -44,21 +38,24 @@ public class DirectedGraph<T> implements Cloneable {
 		return v;
 	}
 
+	public void setDataForVertex(int id, T data) {
+		if (allVertices.containsKey(id)) {
+			Vertex<T> vertex = allVertices.get(id);
+			vertex.setData(data);
+		}
+	}
+
 	/**
 	 * Removes a Vertex and all its Edges
-	 * from the Graph itself and the Vertexes adjacent Vertices
 	 * 
 	 * @param id of the Vertex to remove
 	 */
 	public void removeVertex(int id) {
 
 		// remove Vertex as adjacent Vertex from all connected Vertices
-		allEdges.stream()
+		getAllEdges().stream()
 				.filter(edge -> edge.getTo().getId() == id)
 				.forEach(edge -> edge.getFrom().remove(id));
-
-		// remove Edges from Graph
-		allEdges.removeIf(edge -> edge.getFrom().getId() == id || edge.getTo().getId() == id);
 
 		// remove Vertex form Graph
 		allVertices.remove(id);
@@ -67,6 +64,14 @@ public class DirectedGraph<T> implements Cloneable {
 
 	public Vertex<T> getVertex(int id) {
 		return allVertices.get(id);
+	}
+
+	public Collection<Vertex<T>> getAllVertices() {
+		return allVertices.values();
+	}
+
+	public int getVertexCount() {
+		return allVertices.size();
 	}
 
 	public void addEdge(int fromId, int toId) {
@@ -84,8 +89,7 @@ public class DirectedGraph<T> implements Cloneable {
 			toVertex = new Vertex<T>(toId);
 			allVertices.put(toId, toVertex);
 		}
-		Edge<T> edge = fromVertex.append(toVertex);
-		allEdges.add(edge);
+		fromVertex.append(toVertex);
 	}
 
 	public void addEdge(Edge<T> edge) {
@@ -96,34 +100,17 @@ public class DirectedGraph<T> implements Cloneable {
 		addEdge(from.getId(), to.getId());
 	}
 
-	// David (29.12.2020)
-	public void removeEdge(Edge<T> edge) {
-		if (allEdges.contains(edge)) {
-			allEdges.remove(edge);
-			Vertex<T> vertex1 = edge.getFrom();
-			Vertex<T> vertex2 = edge.getTo();
-			vertex1.remove(vertex2.getId());
-			vertex2.remove(vertex1.getId());
+	public void removeEdge(int fromId, int toId) {
+		if (allVertices.containsKey(fromId)) {
+			allVertices.get(fromId).remove(toId);
 		}
 	}
 
 	public List<Edge<T>> getAllEdges() {
-		return allEdges;
-	}
-
-	public Collection<Vertex<T>> getAllVertices() {
-		return allVertices.values();
-	}
-
-	public int getVertexCount() {
-		return allVertices.size();
-	}
-
-	public void setDataForVertex(int id, T data) {
-		if (allVertices.containsKey(id)) {
-			Vertex<T> vertex = allVertices.get(id);
-			vertex.setData(data);
-		}
+		return allVertices.values().stream()
+				.map(vertex -> vertex.getEdges())
+				.flatMap(List::stream)
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -167,9 +154,11 @@ public class DirectedGraph<T> implements Cloneable {
 	// David (29.12.2020)
 	public DirectedGraph<T> getSubGraph(Set<Integer> idsToKeep) {
 
-		// create empty graph
+		// clone graph
 		DirectedGraph<T> graph = this.clone();
 		int vertexCount = graph.getVertexCount();
+
+		// remove not needed Vertices
 		for (int i = 0; i != vertexCount; i++) {
 			if (!idsToKeep.contains(i))
 				graph.removeVertex(graph.getVertex(i).getId());
