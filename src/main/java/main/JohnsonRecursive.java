@@ -49,8 +49,7 @@ public class JohnsonRecursive<T> extends Johnson<T> {
 				explore(neighbour);
 			}
 		}
-		Vertex<T> popped = stack.pop();
-		assert popped.getId() == currentVertex.getId();
+		stack.pop();
 		unblock(currentVertex);
 
 	}
