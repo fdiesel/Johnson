@@ -11,7 +11,7 @@ import java.util.Stack;
 import graphs.DirectedGraph;
 import graphs.Vertex;
 
-public class JohnsonRecursive<T> {
+public class JohnsonRecursive<T> implements Johnson<T> {
 
 	private Stack<Vertex<T>> stack;
 	private Set<Vertex<T>> blockedSet;
