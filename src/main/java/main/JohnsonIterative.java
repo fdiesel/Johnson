@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 
 import graphs.DirectedGraph;
@@ -13,120 +11,72 @@ import graphs.Vertex;
 
 public class JohnsonIterative<T> extends Johnson<T> {
 
-	private Set<Vertex<T>> blockedSet = new HashSet<>();
-	private Map<Vertex<T>, Set<Vertex<T>>> blockedMap = new HashMap<>();
-	private Stack<Vertex<T>> stack = new Stack<>();
-	private List<DirectedGraph<T>> allCycles = new ArrayList<>();
-
 	public List<DirectedGraph<T>> getCycles(DirectedGraph<T> graph) {
 
-		KosarajusAlgorithm<T> kosarajusAlgorithm = new KosarajusAlgorithm<>();
+		stack = new Stack<>();
+		blockedSet = new HashSet<>();
+		blockedMap = new HashMap<>();
+		results = new ArrayList<>();
 
 		// list of strongly connected subgraphs
-		List<DirectedGraph<T>> stronglyConnectedSubGraphs = kosarajusAlgorithm.findStronglyConnectedComponents(graph);
+		KosarajusAlgorithm<T> kos = new KosarajusAlgorithm<>();
+		List<DirectedGraph<T>> subGraphs = kos.findStronglyConnectedComponents(graph);
 
-		// for each strongly connected subgraph
-		for (DirectedGraph<T> stronglyConnectedGraph : stronglyConnectedSubGraphs) {
-
+		for (DirectedGraph<T> subGraph : subGraphs) {
 			// while cycles can be found
-			while (stronglyConnectedGraph.getVertexCount() > 1) {
+			while (subGraph.getVertexCount() > 1) {
 
-				Vertex<T> startVertex = stronglyConnectedGraph.getAllVertices().get(0);
-
-				blockedSet.add(startVertex);
+				currentGraph = subGraph;
+				startVertex = subGraph.getAllVertices().get(0);
 				stack.push(startVertex);
+				blockedSet.add(startVertex);
+
+				Stack<Vertex<T>> secondary = new Stack<>();
+				secondary.push(startVertex);
 
 				// search adjacent vertices
-				outer: while (!stack.empty()) {
+				while (!stack.empty()) {
 
 					Vertex<T> currentVertex = stack.peek();
 
-					for (Vertex<T> adjacentVertex : currentVertex.getAdjacentVertices()) {
-
-						// add child to stack if not in blocked set
-						if (!blockedSet.contains(adjacentVertex)) {
-							blockedSet.add(adjacentVertex);
-							stack.push(adjacentVertex);
-							continue outer;
+					for (Vertex<T> childVertex : currentVertex.getAdjacentVertices()) {
+						if (childVertex.equals(startVertex)) {
+							addCurrentStackToResults();
+							stack.pop();
+							unblock(currentVertex);
+							if (!stack.empty()) {
+								stack.pop();
+							}
+							if (!secondary.empty()) {
+								unblock(secondary.remove(0));
+							}
+						} else if (blockedSet.contains(childVertex)) {
+							addBlockade(currentVertex, childVertex);
+							stack.pop();
+							unblock(currentVertex);
+							if (!stack.empty()) {
+								stack.pop();
+							}
+							if (!secondary.empty()) {
+								unblock(secondary.remove(0));
+							}
+						} else {
+							stack.push(childVertex);
+							blockedSet.add(childVertex);
+							secondary.push(childVertex);
 						}
-
-					}
-
-					for (Vertex<T> adjacentVertex : currentVertex.getAdjacentVertices()) {
-
-						// cycle found
-						if (startVertex.equals(adjacentVertex)) {
-							cycleFound();
-						}
-
-					}
-
-					// pop if no child found
-					stack.pop();
-
-					if (blockedSet.contains(currentVertex)) {
-
-						for (Vertex<T> adjacentVertex : currentVertex.getAdjacentVertices()) {
-
-							blockedMap.putIfAbsent(adjacentVertex, new HashSet<>());
-							blockedMap.get(adjacentVertex).add(currentVertex);
-
-						}
-
 					}
 
 				}
 
-				// remove vertex from graph
-				stronglyConnectedGraph.removeVertex(startVertex.getId());
+				currentGraph.removeVertex(startVertex.getId());
 
 			}
 
 		}
 
-		return allCycles;
+		return results;
 
-	}
-
-	private void findCyclesInStronglyConnectedGraph(DirectedGraph<T> graph) {
-
-	}
-
-	private void cycleFound() {
-
-		Vertex<T> currentVertex = stack.peek();
-
-		DirectedGraph<T> cycleGraph = new DirectedGraph<>();
-
-		// create a graph based on stack
-		Vertex<T> from = stack.get(0).cloneWithoutEdges();
-		int firstId = from.getId();
-		cycleGraph.addVertex(from);
-		for (int i = 1; i < stack.size(); i++) {
-			Vertex<T> to = stack.get(i).cloneWithoutEdges();
-			cycleGraph.addVertex(to);
-			cycleGraph.addEdge(from.getId(), to.getId());
-			from = to;
-		}
-		cycleGraph.addEdge(from.getId(), firstId);
-
-		// save Graph to found cycles
-		allCycles.add(cycleGraph);
-
-		// unblock vertex so other cycles can be found
-		unblock(currentVertex);
-	}
-
-	private void unblock(Vertex<T> vertex) {
-		blockedSet.remove(vertex);
-		if (blockedMap.containsKey(vertex)) {
-			blockedMap.get(vertex).forEach(adjacentVertex -> {
-				if (blockedSet.contains(adjacentVertex)) {
-					unblock(adjacentVertex);
-				}
-			});
-			blockedMap.remove(vertex);
-		}
 	}
 
 }
