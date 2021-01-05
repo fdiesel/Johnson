@@ -25,7 +25,7 @@ public class JohnsonRecursive<T> extends Johnson<T> {
 			while (subGraph.getVertexCount() > 1) {
 				currentGraph = subGraph;
 				startVertex = subGraph.getAllVertices().get(0);
-				stack.add(startVertex);
+				stack.push(startVertex);
 				blockedSet.add(startVertex);
 				explore(startVertex);
 				currentGraph.removeVertex(startVertex.getId());
