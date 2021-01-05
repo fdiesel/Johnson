@@ -36,21 +36,30 @@ public class JohnsonRecursive<T> extends Johnson<T> {
 
 	}
 
-	private void explore(Vertex<T> currentVertex) {
+	private boolean explore(Vertex<T> currentVertex) {
+
+		boolean foundCycle = false;
 
 		for (Vertex<T> neighbour : currentVertex.getAdjacentVertices()) {
 			if (neighbour.equals(startVertex)) {
+				foundCycle = true;
 				addCurrentStackToResults();
 			} else if (blockedSet.contains(neighbour)) {
 				addBlockade(currentVertex, neighbour);
 			} else {
 				stack.push(neighbour);
 				blockedSet.add(neighbour);
-				explore(neighbour);
+				boolean foundCycleInNeighbour = explore(neighbour);
+				foundCycle = foundCycle || foundCycleInNeighbour;
+
 			}
 		}
 		stack.pop();
-		unblock(currentVertex);
+
+		if (foundCycle)
+			unblock(currentVertex);
+
+		return foundCycle;
 
 	}
 
