@@ -44,7 +44,7 @@ public class JohnsonRecursive<T> extends Johnson<T> {
 			} else if (blockedSet.contains(neighbour)) {
 				addBlockade(currentVertex, neighbour);
 			} else {
-				stack.add(neighbour);
+				stack.push(neighbour);
 				blockedSet.add(neighbour);
 				explore(neighbour);
 			}
