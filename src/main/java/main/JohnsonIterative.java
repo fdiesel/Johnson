@@ -11,12 +11,12 @@ import java.util.Stack;
 import graphs.DirectedGraph;
 import graphs.Vertex;
 
-public class JohnsonIterative<T> implements Johnson<T> {
+public class JohnsonIterative<T> extends Johnson<T> {
 
-	Set<Vertex<T>> blockedSet = new HashSet<>();
-	Map<Vertex<T>, Set<Vertex<T>>> blockedMap = new HashMap<>();
-	Stack<Vertex<T>> stack = new Stack<>();
-	List<DirectedGraph<T>> allCycles = new ArrayList<>();
+	private Set<Vertex<T>> blockedSet = new HashSet<>();
+	private Map<Vertex<T>, Set<Vertex<T>>> blockedMap = new HashMap<>();
+	private Stack<Vertex<T>> stack = new Stack<>();
+	private List<DirectedGraph<T>> allCycles = new ArrayList<>();
 
 	public List<DirectedGraph<T>> getCycles(DirectedGraph<T> graph) {
 
@@ -88,7 +88,11 @@ public class JohnsonIterative<T> implements Johnson<T> {
 
 	}
 
-	public void cycleFound() {
+	private void findCyclesInStronglyConnectedGraph(DirectedGraph<T> graph) {
+
+	}
+
+	private void cycleFound() {
 
 		Vertex<T> currentVertex = stack.peek();
 
