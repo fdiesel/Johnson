@@ -47,6 +47,19 @@ public abstract class JohnsonTestBase<T extends Johnson<Integer>> {
         performTestForFile("testGraphs/threeCycles.txt", expectedGraphs);
     }
 
+    @Test
+    void testDataCycles() {
+        List<DirectedGraph<Integer>> expectedGraphs = new ArrayList<>();
+        expectedGraphs.add(DirectedGraph.fromString("{1,2}\n{2,3}\n{3,1}"));
+        expectedGraphs.add(DirectedGraph.fromString("{8,9}\n{9,8}"));
+        expectedGraphs.add(DirectedGraph.fromString("{1,5}\n{5,2}\n{2,3}\n{3,1}"));
+        expectedGraphs.add(DirectedGraph.fromString("{2,3}\n{3,2}"));
+        expectedGraphs.add(DirectedGraph.fromString("{2,3}\n{3,4}\n{4,5}\n{5,2}"));
+        expectedGraphs.add(DirectedGraph.fromString("{2,3}\n{3,6}\n{6,4}\n{4,5}\n{5,2}"));
+
+        performTestForFile("testGraphs/data.txt", expectedGraphs);
+    }
+
     private void performTestForFile(String graphFilePath, List<DirectedGraph<Integer>> expectedGraphs) {
         try {
             DirectedGraph<Integer> graph = DirectedGraph.fromFile(graphFilePath);
