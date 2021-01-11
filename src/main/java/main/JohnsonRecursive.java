@@ -58,6 +58,12 @@ public class JohnsonRecursive<T> extends Johnson<T> {
 
 		if (foundCycle)
 			unblock(currentVertex);
+		else{
+			// if any neighbour gets unblocked, this node should get unblocked as well
+			for (Vertex<T> neighbour : currentVertex.getAdjacentVertices()) {
+				addBlockade(currentVertex, neighbour);
+			}
+		}
 
 		return foundCycle;
 
