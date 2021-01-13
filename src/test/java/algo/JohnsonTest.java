@@ -62,7 +62,7 @@ class JohnsonTest {
 	private void performTestForFile(String graphFilePath, List<DirectedGraph<Integer>> expectedGraphs) {
 		try {
 			DirectedGraph<Integer> graph = DirectedGraph.fromFile(graphFilePath);
-			List<DirectedGraph<Integer>> resultingCycleGraphs = johnson.getCycles(graph);
+			List<DirectedGraph<Integer>> resultingCycleGraphs = johnson.getSimpleCycles(graph);
 
 			boolean graphsEqual = expectedGraphs.size() == resultingCycleGraphs.size();
 			for (DirectedGraph<Integer> expectedGraph : expectedGraphs) {

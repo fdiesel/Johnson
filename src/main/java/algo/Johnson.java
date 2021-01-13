@@ -12,7 +12,7 @@ import graphs.DirectedGraph;
 import graphs.Vertex;
 
 /**
- * Johnsons algorithm to find cycles in a graph
+ * Johnsons algorithm to find simple cycles in a graph
  *
  * @param <T> graph type to work on
  */
@@ -26,13 +26,13 @@ public class Johnson<T> {
 	private List<DirectedGraph<T>> results;
 
 	/**
-	 * Finds all the cycles in a graph<br>
+	 * Finds all the simple cycles in a graph<br>
 	 * Can be reused, on multiple independent graphs
 	 * 
-	 * @param graph to search for cycles
+	 * @param graph to search for simple cycles
 	 * @return list of found cycles
 	 */
-	public List<DirectedGraph<T>> getCycles(DirectedGraph<T> graph) {
+	public List<DirectedGraph<T>> getSimpleCycles(DirectedGraph<T> graph) {
 
 		stack = new Stack<>();
 		blockedSet = new HashSet<>();
@@ -80,9 +80,9 @@ public class Johnson<T> {
 		}
 		stack.pop();
 
-		if (foundCycle)
+		if (foundCycle) {
 			unblock(currentVertex);
-		else {
+		} else {
 			// if any neighbour gets unblocked, this node should get unblocked as well
 			for (Vertex<T> neighbour : currentVertex.getAdjacentVertices()) {
 				addBlockade(neighbour, currentVertex);

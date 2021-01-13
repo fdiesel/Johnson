@@ -13,7 +13,7 @@ public class Analyzer {
 
 		Johnson<Integer> johnson = new Johnson<>();
 
-		johnson.getCycles(graph).forEach(System.out::println);
+		johnson.getSimpleCycles(graph).forEach(System.out::println);
 
 	}
 
