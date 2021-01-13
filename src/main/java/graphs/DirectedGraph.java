@@ -139,7 +139,7 @@ public class DirectedGraph<T> implements Cloneable {
 	}
 
 	// David (29.12.2020)
-	public DirectedGraph<T> reverse() {
+	public DirectedGraph<T> getReversed() {
 		DirectedGraph<T> outputGraph = new DirectedGraph<T>();
 		List<Edge<T>> edges = getAllEdges();
 		for (int i = 0; i != edges.size(); i++) {

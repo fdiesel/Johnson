@@ -40,7 +40,7 @@ class DirectedGraphTest {
 		sourceGraph.addEdge(1, 2);
 		sourceGraph.addEdge(2, 1);
 
-		DirectedGraph<Integer> actualReversedGraph = sourceGraph.reverse();
+		DirectedGraph<Integer> actualReversedGraph = sourceGraph.getReversed();
 
 		DirectedGraph<Integer> expectedReversedGraph = new DirectedGraph<>();
 		expectedReversedGraph.addEdge(1, 0);

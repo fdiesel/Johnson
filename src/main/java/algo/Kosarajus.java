@@ -44,7 +44,7 @@ public class Kosarajus<T> {
 		}
 
 		// reverse graph, second part of algorithm begins
-		graph = graph.reverse();
+		graph = graph.getReversed();
 		afterReverse = true; // Changes the functionality of depthSearch
 		// set all vertices to not visited
 		visited.clear();
