@@ -1,4 +1,4 @@
-package main;
+package algo;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import algo.Johnson;
 import graphs.DirectedGraph;
 
 public class JohnsonTest {
