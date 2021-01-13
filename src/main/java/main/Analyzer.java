@@ -5,7 +5,7 @@ import graphs.DirectedGraph;
 
 public class Analyzer {
 
-	static final String filename = "data.txt";
+	static final String filename = "testGraphs/qube.txt";
 
 	public static void main(String[] args) throws Exception {
 

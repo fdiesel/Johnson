@@ -40,7 +40,7 @@ public class Johnson<T> {
 		results = new ArrayList<>();
 
 		Kosarajus<T> kos = new Kosarajus<>();
-		List<DirectedGraph<T>> subGraphs = kos.findStronglyConnectedComponents(graph);
+		List<DirectedGraph<T>> subGraphs = kos.getStronglyConnectedComponents(graph);
 
 		for (DirectedGraph<T> subGraph : subGraphs) {
 			while (subGraph.getVertexCount() > 1) {

@@ -26,7 +26,7 @@ public class Kosarajus<T> {
 	// stores info if algorithm is in second part (changes a bit of depthSearch)
 	private boolean afterReverse;
 
-	public List<DirectedGraph<T>> findStronglyConnectedComponents(DirectedGraph<T> inputGraph) {
+	public List<DirectedGraph<T>> getStronglyConnectedComponents(DirectedGraph<T> inputGraph) {
 
 		// clone graph to not modify inputGraph
 		DirectedGraph<T> graph = inputGraph.clone();

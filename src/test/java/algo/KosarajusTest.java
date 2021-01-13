@@ -38,7 +38,7 @@ class KosarajusTest {
 		graph.addEdge(4, 5);
 		graph.addEdge(5, 4);
 
-		List<DirectedGraph<Integer>> stronglyConnectedGraphs = kosarajus.findStronglyConnectedComponents(graph);
+		List<DirectedGraph<Integer>> stronglyConnectedGraphs = kosarajus.getStronglyConnectedComponents(graph);
 
 		assertEquals(2, stronglyConnectedGraphs.size());
 
