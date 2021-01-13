@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import graphs.DirectedGraph;
 
-public class JohnsonTest {
+class JohnsonTest {
 
 	private Johnson<Integer> johnson;
 
