@@ -76,7 +76,6 @@ public class Johnson<T> {
 				blockedSet.add(neighbour);
 				boolean foundCycleInNeighbour = explore(neighbour);
 				foundCycle = foundCycle || foundCycleInNeighbour;
-
 			}
 		}
 		stack.pop();
