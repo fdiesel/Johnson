@@ -71,9 +71,7 @@ public class Johnson<T> {
 			if (neighbour.equals(startVertex)) {
 				foundCycle = true;
 				addCurrentStackToResults();
-			} else if (blockedSet.contains(neighbour)) {
-				addBlockade(neighbour, currentVertex);
-			} else {
+			} else if (!blockedSet.contains(neighbour)) {
 				stack.push(neighbour);
 				blockedSet.add(neighbour);
 				boolean foundCycleInNeighbour = explore(neighbour);
