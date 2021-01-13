@@ -10,6 +10,11 @@ import java.util.Set;
 import graphs.DirectedGraph;
 import graphs.Vertex;
 
+/**
+ * Kosarajus algorithm to find strongly connected components in a graph
+ *
+ * @param <T> type of graph to work on
+ */
 public class Kosarajus<T> {
 
 	// stores the vertices in order of finishing depth search
