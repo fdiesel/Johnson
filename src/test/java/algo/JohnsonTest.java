@@ -17,7 +17,7 @@ public class JohnsonTest {
 	private Johnson<Integer> johnson;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		johnson = new Johnson<>();
 	}
 
