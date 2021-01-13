@@ -20,7 +20,7 @@ class KosarajusTest {
 	}
 
 	@Test
-	void testFindStronglyConnectedComponents() {
+	void testFindTwoStronglyConnectedComponents() {
 
 		DirectedGraph<Integer> graph = new DirectedGraph<>();
 
