@@ -1,10 +1,12 @@
 package main;
 
-public class JohnsonRecursiveTest  extends JohnsonTestBase<JohnsonRecursive<Integer>> {
+import algo.Johnson;
+
+public class JohnsonRecursiveTest extends JohnsonTestBase<Johnson<Integer>> {
 
 	@Override
-	protected JohnsonRecursive<Integer> createJohnsonInstance() {
-		return new JohnsonRecursive<>();
+	protected Johnson<Integer> createJohnsonInstance() {
+		return new Johnson<>();
 	}
 
 }

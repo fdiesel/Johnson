@@ -1,5 +1,6 @@
 package main;
 
+import algo.Johnson;
 import graphs.DirectedGraph;
 
 public class Analyzer {
@@ -10,7 +11,9 @@ public class Analyzer {
 
 		DirectedGraph<Integer> graph = DirectedGraph.fromFile(filename);
 
-		System.out.println(graph);
+		Johnson<Integer> johnson = new Johnson<>();
+
+		johnson.getCycles(graph).forEach(System.out::println);
 
 	}
 

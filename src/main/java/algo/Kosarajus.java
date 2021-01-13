@@ -1,4 +1,4 @@
-package main;
+package algo;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Set;
 import graphs.DirectedGraph;
 import graphs.Vertex;
 
-public class KosarajusAlgorithm<T> {
+public class Kosarajus<T> {
 
 	// stores the vertices in order of finishing depth search
 	private Deque<Integer> stack;
