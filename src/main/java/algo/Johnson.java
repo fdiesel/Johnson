@@ -11,15 +11,27 @@ import java.util.Stack;
 import graphs.DirectedGraph;
 import graphs.Vertex;
 
+/**
+ * Johnsons algorithm to find cycles in a graph
+ *
+ * @param <T> graph type to work on
+ */
 public class Johnson<T> {
 
-	protected Stack<Vertex<T>> stack;
-	protected Set<Vertex<T>> blockedSet;
-	protected Map<Vertex<T>, Set<Vertex<T>>> blockedMap;
-	protected DirectedGraph<T> currentGraph;
-	protected Vertex<T> startVertex;
-	protected List<DirectedGraph<T>> results;
+	private Stack<Vertex<T>> stack;
+	private Set<Vertex<T>> blockedSet;
+	private Map<Vertex<T>, Set<Vertex<T>>> blockedMap;
+	private DirectedGraph<T> currentGraph;
+	private Vertex<T> startVertex;
+	private List<DirectedGraph<T>> results;
 
+	/**
+	 * Finds all the cycles in a graph<br>
+	 * Can be reused, on multiple independent graphs
+	 * 
+	 * @param graph to search for cycles
+	 * @return list of found cycles
+	 */
 	public List<DirectedGraph<T>> getCycles(DirectedGraph<T> graph) {
 
 		stack = new Stack<>();
@@ -45,6 +57,12 @@ public class Johnson<T> {
 
 	}
 
+	/**
+	 * Recursive method to traverse the graph and find cycles
+	 * 
+	 * @param currentVertex
+	 * @return true if a cycle has been found
+	 */
 	private boolean explore(Vertex<T> currentVertex) {
 
 		boolean foundCycle = false;
@@ -54,7 +72,7 @@ public class Johnson<T> {
 				foundCycle = true;
 				addCurrentStackToResults();
 			} else if (blockedSet.contains(neighbour)) {
-				addBlockade(currentVertex, neighbour);
+				addBlockade(neighbour, currentVertex);
 			} else {
 				stack.push(neighbour);
 				blockedSet.add(neighbour);
@@ -70,7 +88,7 @@ public class Johnson<T> {
 		else {
 			// if any neighbour gets unblocked, this node should get unblocked as well
 			for (Vertex<T> neighbour : currentVertex.getAdjacentVertices()) {
-				addBlockade(currentVertex, neighbour);
+				addBlockade(neighbour, currentVertex);
 			}
 		}
 
@@ -78,29 +96,42 @@ public class Johnson<T> {
 
 	}
 
-	protected void unblock(Vertex<T> v) {
-		blockedSet.remove(v);
-		Set<Vertex<T>> waitingList = blockedMap.get(v);
+	/**
+	 * Removes the Vertex from the blocked set and map
+	 * 
+	 * @param vertex
+	 */
+	private void unblock(Vertex<T> vertex) {
+		blockedSet.remove(vertex);
+		Set<Vertex<T>> waitingList = blockedMap.get(vertex);
 		if (waitingList == null)
 			return;
-
-		for (Vertex<T> waitingVertex : waitingList) {
+		for (Vertex<T> waitingVertex : waitingList)
 			unblock(waitingVertex);
-		}
-		blockedMap.remove(v);
+		blockedMap.remove(vertex);
 	}
 
-	protected void addBlockade(Vertex<T> waiting, Vertex<T> blocking) {
-		if (!blockedMap.containsKey(blocking)) {
-			blockedMap.put(blocking, new HashSet<>());
+	/**
+	 * Adds a Vertex which blocks another one to the blocked map
+	 * 
+	 * @param blockingVertex
+	 * @param blockedVertex
+	 */
+	private void addBlockade(Vertex<T> blockingVertex, Vertex<T> blockedVertex) {
+		if (!blockedMap.containsKey(blockingVertex)) {
+			blockedMap.put(blockingVertex, new HashSet<>());
 		}
-		blockedMap.get(blocking).add(waiting);
+		blockedMap.get(blockingVertex).add(blockedVertex);
 	}
 
-	protected void addCurrentStackToResults() {
+	/**
+	 * Adds the current stack to the results as a cycle
+	 */
+	private void addCurrentStackToResults() {
+
 		DirectedGraph<T> cycleGraph = new DirectedGraph<>();
 
-		// create a graph based on stack
+		// create a graph (cycle) from stack with deep copied Vertices
 		Vertex<T> from = stack.get(0).cloneWithoutEdges();
 		int firstId = from.getId();
 		cycleGraph.addVertex(from);
@@ -114,6 +145,7 @@ public class Johnson<T> {
 
 		// save Graph to found cycles
 		results.add(cycleGraph);
+
 	}
 
 }
