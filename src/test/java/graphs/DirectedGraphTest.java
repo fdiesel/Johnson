@@ -7,6 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -82,6 +85,47 @@ class DirectedGraphTest {
 		graph2.addEdge(0, 2);
 
 		assertFalse(graph1.equals(graph2));
+
+	}
+
+	@Test
+	void testGetSubGraph() {
+
+		DirectedGraph<Integer> graph = new DirectedGraph<>();
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 2);
+		graph.addEdge(2, 3);
+
+		Set<Integer> idsToKeep = new HashSet<>();
+		idsToKeep.add(1);
+		idsToKeep.add(2);
+		idsToKeep.add(3);
+
+		DirectedGraph<Integer> actualSubGraph = graph.getSubGraph(idsToKeep);
+
+		DirectedGraph<Integer> expectedSubGraph = new DirectedGraph<>();
+		expectedSubGraph.addEdge(1, 2);
+		expectedSubGraph.addEdge(2, 3);
+
+		assertTrue(actualSubGraph.equals(expectedSubGraph));
+
+	}
+
+	@Test
+	void testGetMinSubGraph() {
+
+		DirectedGraph<Integer> graph = new DirectedGraph<>();
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 2);
+		graph.addEdge(2, 3);
+
+		DirectedGraph<Integer> actualSubGraph = graph.getSubGraph(1);
+
+		DirectedGraph<Integer> expectedSubGraph = new DirectedGraph<>();
+		expectedSubGraph.addEdge(1, 2);
+		expectedSubGraph.addEdge(2, 3);
+
+		assertTrue(actualSubGraph.equals(expectedSubGraph));
 
 	}
 
