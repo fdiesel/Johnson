@@ -27,7 +27,6 @@ public class Kosarajus<T> {
 		DirectedGraph<T> graph = inputGraph.clone();
 		result.clear();
 		afterReverse = false;
-		int vertices = graph.getVertexCount();
 		visited = new HashSet<>();
 		stack = new ArrayDeque<>();
 
