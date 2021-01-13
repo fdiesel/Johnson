@@ -82,14 +82,31 @@ public class DirectedGraph<T> implements Cloneable {
 
 	}
 
-	public Vertex<T> getVertex(int id) {
+	/**
+	 * Returns a Vertex by ID
+	 * 
+	 * @param id to look for
+	 * @return found Vertex
+	 * @throws NullPointerException - if the ID was not found
+	 */
+	public Vertex<T> getVertex(int id) throws NullPointerException {
 		return allVertices.get(id);
 	}
 
+	/**
+	 * Get a list of all Vertices
+	 * 
+	 * @return list of Vertices
+	 */
 	public List<Vertex<T>> getAllVertices() {
 		return new ArrayList<Vertex<T>>(allVertices.values());
 	}
 
+	/**
+	 * Get the count of all Vertices
+	 * 
+	 * @return count of Vertices
+	 */
 	public int getVertexCount() {
 		return allVertices.size();
 	}
@@ -153,6 +170,11 @@ public class DirectedGraph<T> implements Cloneable {
 		}
 	}
 
+	/**
+	 * Get a list of all Edges
+	 * 
+	 * @return list of Edges
+	 */
 	public List<Edge<T>> getAllEdges() {
 		return allVertices.values().stream()
 				.map(vertex -> vertex.getEdges())
