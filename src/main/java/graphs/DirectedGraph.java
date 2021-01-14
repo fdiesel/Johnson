@@ -159,6 +159,17 @@ public class DirectedGraph<T> implements Cloneable {
 	}
 
 	/**
+	 * Connects each Vertex in the chain to the next one and creates each Vertex
+	 * that doesn't exist
+	 * 
+	 * @param ids of Vertices
+	 */
+	public void addLineOfEdges(int... ids) {
+		for (int i = 0; i < ids.length - 1; i++)
+			addEdge(ids[i], ids[i + 1]);
+	}
+
+	/**
 	 * Removes the Edge in between the two Vertices if possible
 	 * 
 	 * @param fromId
@@ -276,11 +287,6 @@ public class DirectedGraph<T> implements Cloneable {
 			buffer.append("\n");
 			buffer.append(edge.toString());
 		});
-
-		// String.join("\n", getAllEdges()
-		// .stream()
-		// .map(edge -> edge.toString())
-		// .collect(Collectors.toList()));
 
 		return buffer.toString();
 	}
