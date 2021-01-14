@@ -164,7 +164,7 @@ public class DirectedGraph<T> implements Cloneable {
 	 * 
 	 * @param ids of Vertices
 	 */
-	public void addLineOfEdges(int... ids) {
+	public void addTrack(int... ids) {
 		for (int i = 0; i < ids.length - 1; i++)
 			addEdge(ids[i], ids[i + 1]);
 	}
@@ -298,12 +298,21 @@ public class DirectedGraph<T> implements Cloneable {
 	 * @return true if there is the same amount of Edges, Vertices and the IDs are
 	 *         equal
 	 */
-	public boolean equals(DirectedGraph<T> otherGraph) {
-		if (this.getVertexCount() != otherGraph.getVertexCount())
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DirectedGraph other = (DirectedGraph) obj;
+
+		if (this.getVertexCount() != other.getVertexCount())
 			return false;
 
 		List<Edge<T>> myEdges = this.getAllEdges();
-		List<Edge<T>> otherEdges = otherGraph.getAllEdges();
+		List<Edge<T>> otherEdges = other.getAllEdges();
 
 		if (myEdges.size() != otherEdges.size())
 			return false;
