@@ -298,6 +298,7 @@ public class DirectedGraph<T> implements Cloneable {
 	 * @return true if there is the same amount of Edges, Vertices and the IDs are
 	 *         equal
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -306,6 +307,7 @@ public class DirectedGraph<T> implements Cloneable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+
 		DirectedGraph other = (DirectedGraph) obj;
 
 		if (this.getVertexCount() != other.getVertexCount())
