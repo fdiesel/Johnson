@@ -12,7 +12,7 @@ import graphs.DirectedGraph;
 import graphs.Vertex;
 
 /**
- * Johnsons algorithm to find simple cycles in a graph
+ * Johnson's algorithm to find simple cycles in a graph
  *
  * @param <T> graph type to work on
  */
