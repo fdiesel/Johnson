@@ -265,11 +265,24 @@ public class DirectedGraph<T> implements Cloneable {
 
 	@Override
 	public String toString() {
-		return allVertices.values().toString() + "\n"
-				+ String.join("\n", getAllEdges()
-						.stream()
-						.map(edge -> edge.toString())
-						.collect(Collectors.toList()));
+
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("Vertices: ");
+		buffer.append(getAllVertices().toString());
+		buffer.append("\n");
+		buffer.append("Edges:");
+
+		getAllEdges().forEach(edge -> {
+			buffer.append("\n");
+			buffer.append(edge.toString());
+		});
+
+		// String.join("\n", getAllEdges()
+		// .stream()
+		// .map(edge -> edge.toString())
+		// .collect(Collectors.toList()));
+
+		return buffer.toString();
 	}
 
 	/**
