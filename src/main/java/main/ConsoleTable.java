@@ -27,11 +27,11 @@ public class ConsoleTable {
 		colWidths = new int[this.alignments.length];
 	}
 
-	public void addTitleRow(String... row) {
+	public void addHeaderRow(String... row) {
 		this.addRow(this.headerRows, row);
 	}
 
-	public void addHeaderRow(String... row) {
+	public void addBodyRow(String... row) {
 		this.addRow(this.bodyRows, row);
 	}
 
