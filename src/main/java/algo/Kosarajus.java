@@ -6,6 +6,7 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import graphs.DirectedGraph;
 import graphs.Vertex;
@@ -21,65 +22,86 @@ public class Kosarajus<T> {
 	private Deque<Integer> stack;
 	// stores info if vertex has already been visited
 	private Set<Integer> visited;
+	// set of vertexIDs that represent a strongly connected component
+	private Set<Integer> set;
 	// list of strongly connected components found by algorithm
 	private List<Set<Integer>> result = new ArrayList<>();
-	// stores info if algorithm is in second part (changes a bit of depthSearch)
-	private boolean afterReverse;
+	DirectedGraph<T> graph;
+	DirectedGraph<T> reversedGraph;
 
+	/**
+	 * Method to find all strongly-connected components in a directed graph
+	 * 
+	 * @param inputGraph
+	 * @return Returns a list of subgraphs that represent the strongly-connected
+	 *         components
+	 */
 	public List<DirectedGraph<T>> getStronglyConnectedComponents(DirectedGraph<T> inputGraph) {
 
 		// clone graph to not modify inputGraph
-		DirectedGraph<T> graph = inputGraph.clone();
+		graph = inputGraph.clone();
+		reversedGraph = graph.getReversed();
 		result.clear();
-		afterReverse = false;
 		visited = new HashSet<>();
 		stack = new ArrayDeque<>();
 
-		// depthSearch on all vertices not visited
+		// depthSearch using buildStack on all vertices not visited
 		for (Vertex<T> vertex : graph.getAllVertices()) {
 			if (!visited.contains(vertex.getId())) {
-				// null input because not needed before (afterReverse = true)
-				depthSearch(vertex.getId(), graph, null);
+				buildStack(vertex.getId());
 			}
 		}
 
-		// reverse graph, second part of algorithm begins
-		graph = graph.getReversed();
-		afterReverse = true; // Changes the functionality of depthSearch
+		// second part of algorithm begins
+
 		// set all vertices to not visited
 		visited.clear();
 
-		// depthSearch on all not visited Elements of stack in order
+		// depthSearch using buildSet on all not visited Elements of stack in order
 		while (!stack.isEmpty()) {
 			int current = stack.removeLast();
 			if (!visited.contains(current)) {
-				Set<Integer> set = new HashSet<>();
-				depthSearch(current, graph, set);
+				set = new HashSet<>();
+				buildSet(current);
 				result.add(set);
 			}
 		}
 
-		List<DirectedGraph<T>> subGraphs = new ArrayList<>();
-
-		result.forEach(set -> subGraphs.add(inputGraph.getSubGraph(set)));
-
-		return subGraphs;
+		return result.stream()
+				.map(set -> graph.getSubGraph(set))
+				.collect(Collectors.toList());
 	}
 
-	private void depthSearch(int vertexId, DirectedGraph<T> graph, Set<Integer> set) {
+	/**
+	 * Recursively save graph to Stack by depth first search
+	 * 
+	 * @param vertexId
+	 */
+	private void buildStack(int vertexId) {
 		visited.add(vertexId);
-		if (afterReverse)
-			set.add(vertexId); // if in part 2 of algo build strongly connected component in set
-		// for each adjacent vertex not visited do depthSearch (= recursive
-		// implementation of depthSearch)
 		for (Vertex<T> current : graph.getVertex(vertexId).getAdjacentVertices()) {
 			int currentID = current.getId();
 			if (!visited.contains(currentID)) {
-				depthSearch(currentID, graph, set);
+				buildStack(currentID);
 			}
 		}
-		if (!afterReverse)
-			stack.add(vertexId); // if in part 1 of algo build stack
+		stack.add(vertexId);
+	}
+
+	/**
+	 * Recursively save reversed Graph to Set by depth first search
+	 * 
+	 * @param vertexId to start from
+	 */
+	private void buildSet(int vertexId) {
+		visited.add(vertexId);
+		set.add(vertexId);
+		for (Vertex<T> current : reversedGraph.getVertex(vertexId).getAdjacentVertices()) {
+			int currentID = current.getId();
+			if (!visited.contains(currentID)) {
+				buildSet(currentID);
+			}
+		}
 	}
 
 }
