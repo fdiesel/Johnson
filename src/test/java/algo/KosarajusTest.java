@@ -20,6 +20,45 @@ class KosarajusTest {
 	}
 
 	@Test
+	void testFindFourStronglyConnectedComponents() {
+
+		DirectedGraph<Integer> graph = new DirectedGraph<>();
+
+		graph.addTrack(1, 2, 0, 1);
+
+		graph.addTrack(1, 3);
+
+		graph.addTrack(3, 4, 5, 3);
+
+		graph.addTrack(6, 5);
+
+		graph.addTrack(6, 7, 8, 9, 6);
+
+		graph.addTrack(9, 10);
+
+		List<DirectedGraph<Integer>> cycles = kosarajus.getStronglyConnectedComponents(graph);
+
+		assertEquals(4, cycles.size());
+
+		DirectedGraph<Integer> cycle1 = new DirectedGraph<>();
+		cycle1.addTrack(1, 2, 0, 1);
+		assertTrue(cycles.contains(cycle1));
+
+		DirectedGraph<Integer> cycle2 = new DirectedGraph<>();
+		cycle2.addTrack(3, 4, 5, 3);
+		assertTrue(cycles.contains(cycle2));
+
+		DirectedGraph<Integer> cycle3 = new DirectedGraph<>();
+		cycle3.addTrack(6, 7, 8, 9, 6);
+		assertTrue(cycles.contains(cycle3));
+
+		DirectedGraph<Integer> cycle4 = new DirectedGraph<>();
+		cycle4.addSingleVertex(10);
+		assertTrue(cycles.contains(cycle4));
+
+	}
+
+	@Test
 	void testFindTwoStronglyConnectedComponents() {
 
 		DirectedGraph<Integer> graph = new DirectedGraph<>();
