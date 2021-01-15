@@ -1,6 +1,6 @@
 # Johnson
 
-This is a java implementation of the Johnson's simple cycles algorithm. 
+This is a java implementation of Johnson's simple cycles algorithm. 
 
 ## Requirements
 
