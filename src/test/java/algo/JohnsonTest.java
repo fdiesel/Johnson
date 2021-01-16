@@ -38,12 +38,13 @@ class JohnsonTest {
 
 	@Test
 	void testThreeCycles() {
-		List<DirectedGraph<Integer>> expectedGraphs = new ArrayList<>();
-		expectedGraphs.add(DirectedGraph.fromString("{2,3}\n{3,2}"));
-		expectedGraphs.add(DirectedGraph.fromString("{1,2}\n{2,3}\n{3,1}"));
-		expectedGraphs.add(DirectedGraph.fromString("{1,2}\n{2,3}\n{3,9}\n{9,1}"));
 
-		performTestForFile("testGraphs/threeCycles.txt", expectedGraphs);
+		List<DirectedGraph<Integer>> expectedCycles = new ArrayList<>();
+		expectedCycles.add(createGraphByTrack(2, 3, 2));
+		expectedCycles.add(createGraphByTrack(1, 2, 3, 1));
+		expectedCycles.add(createGraphByTrack(1, 2, 3, 9, 1));
+
+		performTestForFile("testGraphs/threeCycles.txt", expectedCycles);
 	}
 
 	@Test
@@ -84,6 +85,12 @@ class JohnsonTest {
 		} catch (Exception e) {
 			fail(e);
 		}
+	}
+
+	private DirectedGraph<Integer> createGraphByTrack(int... indices) {
+		DirectedGraph<Integer> graph = new DirectedGraph<>();
+		graph.addTrack(indices);
+		return graph;
 	}
 
 }

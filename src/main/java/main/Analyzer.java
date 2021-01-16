@@ -10,7 +10,7 @@ import graphs.Vertex;
 
 public class Analyzer {
 
-	static final String filename = "qube.txt";
+	static final String filename = "presentation.txt";
 	static final String basepath = "testGraphs/";
 
 	/**

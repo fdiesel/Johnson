@@ -339,8 +339,7 @@ public class DirectedGraph<T> implements Cloneable {
 
 		// edge string pattern
 		final Pattern pattern = Pattern.compile(
-				"\\{\\s*([0-9]+)\\s*,\\s*([0-9]+).*?\\}",
-				Pattern.CASE_INSENSITIVE);
+				"\\{\\s*([0-9]+)\\s*,\\s*([0-9]+)\\s*\\}");
 
 		// match the pattern in the file
 		Matcher matcher = pattern.matcher(edgesString);
