@@ -78,28 +78,28 @@ public class ConsoleTable {
 	@Override
 	public String toString() {
 
-		String separator = generateSeparator();
-		String headerFormat = generateFormat(Align.Left);
-		String bodyFormat = generateFormat();
+		final String separator = generateSeparator();
+		final String headerFormat = generateFormat(Align.Left);
+		final String bodyFormat = generateFormat();
 
-		StringBuffer result = new StringBuffer();
-		result.append(separator + "\n");
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(separator + "\n");
 
 		// append header
 		for (String[] row : this.headerRows)
-			result.append(String.format(headerFormat, (Object[]) row));
+			buffer.append(String.format(headerFormat, (Object[]) row));
 
 		// separate header and body if both exist
 		if (this.headerRows.size() > 0 && this.bodyRows.size() > 0)
-			result.append(separator + "\n");
+			buffer.append(separator + "\n");
 
 		// append body
 		for (String[] row : this.bodyRows)
-			result.append(String.format(bodyFormat, (Object[]) row));
+			buffer.append(String.format(bodyFormat, (Object[]) row));
 
-		result.append(separator);
+		buffer.append(separator);
 
-		return result.toString();
+		return buffer.toString();
 
 	}
 
