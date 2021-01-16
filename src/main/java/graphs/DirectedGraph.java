@@ -329,7 +329,7 @@ public class DirectedGraph<T> implements Cloneable {
 
 	/**
 	 * Creates a Graph form a String containing Edges<br>
-	 * Format: {fromId, toId}<br>
+	 * Format: {&lt;from ID&gt;, &lt;to ID&gt;}<br>
 	 * Separator: any
 	 * 
 	 * @param edgesString
