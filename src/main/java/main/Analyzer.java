@@ -116,16 +116,15 @@ public class Analyzer {
 		int maxNumber = 1;
 		boolean containsNegativeNumbers = false;
 		for (Iterator<Integer> iterator = integers.iterator(); iterator.hasNext();) {
-			int i = (int) iterator.next();
-			if (i > maxNumber || -i > maxNumber)
-				maxNumber = Math.abs(i);
-			if (i < 0)
+			int signed = (int) iterator.next();
+			int unsigned = Math.abs(signed);
+			if (unsigned > maxNumber)
+				maxNumber = unsigned;
+			if (signed < 0)
 				containsNegativeNumbers = true;
 		}
-		final int maxDigitCount = (int) Math.log10(maxNumber) + 1;
-		return (containsNegativeNumbers ? "%+0" : "%0") +
-				(containsNegativeNumbers ? maxDigitCount + 1 : maxDigitCount) +
-				"d";
+		int maxDigitCount = (int) Math.log10(maxNumber) + (containsNegativeNumbers ? 2 : 1);
+		return (containsNegativeNumbers ? "%+0" : "%0") + maxDigitCount + "d";
 	}
 
 }
