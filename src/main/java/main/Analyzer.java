@@ -1,6 +1,8 @@
 package main;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import algo.Johnson;
 import graphs.DirectedGraph;
@@ -10,7 +12,6 @@ public class Analyzer {
 
 	static final String filename = "qube.txt";
 	static final String basepath = "testGraphs/";
-	static final String numberFormat = "%02d";
 
 	/**
 	 * Find simple cycles in a Graph and display them
@@ -39,21 +40,26 @@ public class Analyzer {
 
 		ConsoleTable table = new ConsoleTable(ConsoleTable.Align.Left, ConsoleTable.Align.Left);
 
+		// set headers
 		table.addHeaderRow("Graph", filename);
 		table.addHeaderRow("Cycles", Integer.toString(cycles.size()));
 
-		final int maxCycleDigitCount = (int) Math.log10(cycles.size() + 1) + 1;
-		final String cycleHeaderFormat = "Cycle %0" + maxCycleDigitCount + "d (length " + numberFormat + ")";
+		// create number string formats
+		final String cycleIndexFormat = getUniformIntFormat(cycles.size() - 1);
+		final String cycleLengthFormat = getUniformIntFormat(cycles.stream()
+				.mapToInt(c -> c.getVertexCount()));
+		final String vertexIndexFormat = getUniformIntFormat(cycles.stream()
+				.map(c -> c.getAllVertices())
+				.flatMap(vs -> vs.stream())
+				.mapToInt(v -> v.getId()));
+		final String cycleHeaderFormat = "Cycle " + cycleIndexFormat + " (length " + cycleLengthFormat + ")";
 
+		// fill table
 		for (int i = 0; i < cycles.size(); i++) {
-
 			DirectedGraph<Integer> cycle = cycles.get(i);
-
 			String name = String.format(cycleHeaderFormat, i + 1, cycle.getVertexCount());
-			String value = graphToCycleString(cycle);
-
+			String value = graphToCycleString(cycle, vertexIndexFormat);
 			table.addBodyRow(name, value);
-
 		}
 
 		table.display();
@@ -68,7 +74,8 @@ public class Analyzer {
 	 * @throws IndexOutOfBoundsException if the Graph doesn't or doesn't only
 	 *                                   consist of a Cycle
 	 */
-	public static String graphToCycleString(DirectedGraph<Integer> cycle) throws IndexOutOfBoundsException {
+	public static String graphToCycleString(DirectedGraph<Integer> cycle, String vertexIndexFormat)
+			throws IndexOutOfBoundsException {
 
 		StringBuffer buffer = new StringBuffer();
 
@@ -76,13 +83,47 @@ public class Analyzer {
 		Vertex<Integer> currentVertex = startVertex;
 
 		do {
-			buffer.append(String.format(numberFormat + " -> ", currentVertex.getId()));
+			buffer.append(String.format(vertexIndexFormat + " -> ", currentVertex.getId()));
 			currentVertex = currentVertex.getAdjacentVertices().get(0);
 		} while (!currentVertex.equals(startVertex));
 
-		buffer.append(String.format(numberFormat, startVertex.getId()));
+		buffer.append(String.format(vertexIndexFormat, startVertex.getId()));
 
 		return buffer.toString();
+	}
+
+	/**
+	 * Creates a uniform format, which fits all input numbers to display them with
+	 * equal width<br>
+	 * "%(+)0&lt;n&gt;d"
+	 * 
+	 * @param integers to consider
+	 * @return format
+	 */
+	public static String getUniformIntFormat(int... integers) {
+		return getUniformIntFormat(IntStream.of(integers));
+	}
+
+	/**
+	 * Creates a uniform format, which fits all input numbers to display them with
+	 * equal width<br>
+	 * "%(+)0&lt;n&gt;d"
+	 * 
+	 * @param integers to consider
+	 * @return format
+	 */
+	public static String getUniformIntFormat(IntStream integers) {
+		int maxNumber = 1;
+		boolean containsNegativeNumbers = false;
+		for (Iterator<Integer> iterator = integers.iterator(); iterator.hasNext();) {
+			int i = (int) iterator.next();
+			if (i > maxNumber)
+				maxNumber = i;
+			if (i < 0)
+				containsNegativeNumbers = true;
+		}
+		final int maxDigitCount = (int) Math.log10(maxNumber) + 1;
+		return (containsNegativeNumbers ? "%+0" : "%0") + maxDigitCount + "d";
 	}
 
 }
