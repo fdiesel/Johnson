@@ -61,7 +61,7 @@ public class Analyzer {
 
 	/**
 	 * Converts a Graph, which consists of a Cycle into a String separated by
-	 * arrows<br>
+	 * arrows
 	 * 
 	 * @param cycle Graph to read
 	 * @return 01 -> 02 -> ...
